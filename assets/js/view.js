@@ -16,11 +16,11 @@ views.Page = Backbone.View.extend({
     initialize: function() {
         this.renderCore('index', null);
     },
-    renderError: function() {
+    renderError: function(name) {
         var model = core.get('error');
         var compiled = model.get('compiled');
         var meta = {
-            'name': model.get('name'),
+            'name': name,
             'title': model.get('title'),
             'icon': model.get('icon')
         };
@@ -44,7 +44,7 @@ views.Page = Backbone.View.extend({
             this.$el.html(compiled(meta));
             run(name);
         } else {
-            this.renderError();
+            this.renderError(name);
         }
 
         return this;
@@ -64,7 +64,7 @@ views.Page = Backbone.View.extend({
             this.$el.html(compiled(meta));
             run(name);
         } else {
-            this.renderError();
+            this.renderError(name);
         }
 
         return this;
