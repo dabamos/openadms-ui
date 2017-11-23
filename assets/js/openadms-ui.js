@@ -12,29 +12,28 @@
 Logger.useDefaults();
 
 /* Global objects to store core and additional `App` instances under their respecitve name. */
-var core = {};
-var apps = {};
+var core = new models.AppsList();
+var apps = new models.AppsList();
 
 $(document).ready(function() {
     /**
      * Creates router and views using Backbone.js.
      */
     function initBackbone() {
-        models.appList = new models.AppList(_.values(apps));
-
-        // Create the view.
-        views.frontendView = new views.FrontendView();
+        views.page = new views.Page();
+        views.appMenu = new views.AppMenu(apps);
+        views.appMenu.render();
 
         // Start the router.
-        router.router = new router.Router(views.frontendView);
+        router.router = new router.Router(views.page);
         Backbone.history.start();
     }
 
     /**
      * Loads apps from a path and stores them in a given object.
-     * @param  {string} rootPath - Path to load the apps from.
-     * @param  {Object} obj      - Object to store the apps in.
-     * @return {deferred}        - Deferred object.
+     * @param  {string}              rootPath - Path to load the apps from.
+     * @param  {Backbone.Collection} obj      - Collection to store the apps in.
+     * @return {deferred}                     - Deferred object.
      */
     function loadApps(rootPath, obj) {
         return $.ajax({
@@ -60,14 +59,16 @@ $(document).ready(function() {
                         dataType: 'html'
                     })
                 ).then(function(meta, script, template) {
-                    var app = new models.App({
-                        name: _.first(meta).name,                   // The name of the app.
-                        meta: _.first(meta),                        // The meta information.
-                        run: new Function(_.first(script)),         // The app script.
-                        compiled: _.template(_.first(template)),    // The compiled template.
-                    });
-                    obj[app.get('name')] = app;
-                    Logger.debug(`Loaded app "${app.get('name')}"`);
+                    var data = {
+                        id: _.first(meta).name,
+                        name: _.first(meta).name,
+                        title: _.first(meta).title,
+                        icon: _.first(meta).icon,
+                        run: new Function(_.first(script)),
+                        compiled: _.template(_.first(template)),
+                    };
+                    obj.add(data);
+                    Logger.debug(`Loaded app "${data.name}"`);
                 });
             }));
         });

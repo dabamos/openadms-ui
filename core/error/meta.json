@@ -1,3 +1,5 @@
 {
-    "name": "error"
+    "name": "error",
+    "title": "Page not found",
+    "icon": "file"
 }

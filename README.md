@@ -8,11 +8,12 @@ and Semantic UI.
 
 ## Installation
 Clone the repository with Git and run OpenADMS UI on an arbitrary web server.
-For testing, you can use ``http.server`` of Python 3:
+For testing, you can use ``http.server`` of Python 3 inside the OpenADMS UI
+directory:
 ```
 $ python3 -m http.server 8080
 ```
-Open your web browser and access ``http://localhost:8080``.
+Open your web browser and access ``http://localhost:8080/``.
 
 ## Licence
 OpenADMS UI is licenced under BSD-2-Clause.

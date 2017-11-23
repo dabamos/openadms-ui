@@ -1,7 +1,8 @@
 {
     "apps": [
-        "error",
+        "about",
         "dashboard",
+        "error",
         "index",
         "license"
     ]

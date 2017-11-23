@@ -1,6 +1,5 @@
 {
     "name": "confed",
     "title": "Configuration Editor",
-    "description": "The OpenADMS Node configuration editor.",
     "icon": "settings"
 }

@@ -1,3 +1,5 @@
 {
-    "name": "index"
+    "name": "index",
+    "title": "OpenADMS UI",
+    "icon": "info"
 }

@@ -9,20 +9,21 @@
 var models = {};
 
 /**
- * App model.
+ * App base model.
  */
 models.App = Backbone.Model.extend({
     defaults: {
         name: 'undefined',
-        meta: {},
+        title: 'Undefined',
+        icon: 'help',
         compiled: null,
         run: null,
     }
 });
 
 /**
- * AppList model.
+ * AppsList collection.
  */
-models.AppList = Backbone.Collection.extend({
+models.AppsList = Backbone.Collection.extend({
     model: models.App
 });
