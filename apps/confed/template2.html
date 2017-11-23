@@ -1,0 +1,30 @@
+<h2 class="ui dividing header">
+    <i class="<%= icon %> icon"></i>
+    <div class="content">
+        <%= instanceName %>
+        <div class="sub header"><%= modulePath %></div>
+    </div>
+</h2>
+
+<p><%= description %></p>
+
+<div class="ui two item menu">
+    <a class="active item" data-tab="configuration">Configuration</a>
+    <a class="item" data-tab="preview">Preview</a>
+</div>
+
+<div class="ui tab segment active" data-tab="configuration">
+<%= form %>
+</div>
+
+<div class="ui tab segment" data-tab="preview">
+    <div class="ui form">
+        <div class="field">
+            <textarea class="configuration" id="mypreview" rows="15" style="font-family: monospace;" readonly></textarea>
+            <div class="ui top right attached label">JSON</div>
+        </div>
+    </div>
+</div>
+
+<div class="ui primary button">Save</div>
+<div class="ui button">Discard</div>
