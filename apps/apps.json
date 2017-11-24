@@ -1,5 +1,5 @@
 {
-    "apps": [
+    "autoload": [
         "basic",
         "confed"
     ]

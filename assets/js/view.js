@@ -1,5 +1,5 @@
 /**
- * @file      Backbone.js views.
+ * @file      Views for Backbone.js.
  * @author    Philipp Engel
  * @license   BSD-2-Clause
  * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2017
@@ -33,7 +33,7 @@ views.Page = Backbone.View.extend({
         var model = apps.get(name);
 
         if (model != null) {
-            var run = model.get('run');
+            var run = model.get('script');
             var compiled = model.get('compiled');
             var meta = {
                 'name': model.get('name'),
@@ -53,7 +53,7 @@ views.Page = Backbone.View.extend({
         var model = core.get(name);
 
         if (model != null) {
-            var run = model.get('run');
+            var run = model.get('script');
             var compiled = model.get('compiled');
             var meta = {
                 'name': model.get('name'),
@@ -72,7 +72,7 @@ views.Page = Backbone.View.extend({
 });
 
 /**
- * View of an item in the App menu.
+ * View of an App item in the App menu.
  */
 views.AppItem = Backbone.View.extend({
     tagName: 'a',
@@ -103,7 +103,7 @@ views.AppMenu = Backbone.View.extend({
 
         _.bindAll(this, 'render');
 
-        // Bind collection changes to re-rendering
+        // Bind collection changes to re-rendering.
         this.collection.bind('reset', this.render);
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
@@ -123,7 +123,7 @@ views.AppMenu = Backbone.View.extend({
 
             element.append(appItem.render().el);
         });
-        $('.dropdown').dropdown('refresh');
+
         return this;
     }
 });

@@ -8,41 +8,63 @@
 
 'use strict';
 
-/* Initialize the logger. */
+/* Initialise the logger. */
 Logger.useDefaults();
 
-/* Global objects to store core and additional `App` instances under their respecitve name. */
+/* Global collections to store `App` models. */
 var core = new models.AppsList();
 var apps = new models.AppsList();
 
 $(document).ready(function() {
     /**
-     * Creates router and views using Backbone.js.
+     * Hides loader screen.
+     * @return {function} - Function to run deferred.
      */
-    function initBackbone() {
-        views.page = new views.Page();
-        views.appMenu = new views.AppMenu(apps);
-        views.appMenu.render();
-
-        // Start the router.
-        router.router = new router.Router(views.page);
-        Backbone.history.start();
+    function hideLoader() {
+        return function() {
+            var loader = $('#loader');
+            loader.dimmer('show');
+            loader.dimmer('hide');
+        };
     }
 
     /**
-     * Loads apps from a path and stores them in a given object.
-     * @param  {string}              rootPath - Path to load the apps from.
-     * @param  {Backbone.Collection} obj      - Collection to store the apps in.
-     * @return {deferred}                     - Deferred object.
+     * Creates and renders views.
+     * @return {function} - Function to run deferred.
      */
-    function loadApps(rootPath, obj) {
+    function initView() {
+        return function() {
+            views.page = new views.Page();
+            views.appMenu = new views.AppMenu(apps);
+            views.appMenu.render();
+        };
+    }
+
+    /**
+     * Creates and starts router.
+     * @return {function} - Function to run deferred.
+     */
+    function initRouter() {
+        return function() {
+            router.router = new router.Router(views.page);
+            Backbone.history.start();
+        };
+    }
+
+    /**
+     * Loads apps from a root path and stores them in a given collection.
+     * @param  {string}              rootPath   - Path to load the apps from.
+     * @param  {Backbone.Collection} collection - Collection to store the apps in.
+     * @return {deferred}                       - Deferred object.
+     */
+    function loadApps(rootPath, collection) {
         return $.ajax({
             url: urljoin(rootPath, 'apps.json'),
             dataType: 'json'
-        }).then(function(data) {
-            var appNames = data.apps;
+        }).then(function(kwargs) {
+            var autoload = kwargs.autoload;
 
-            return $.when.apply($, appNames.map(function(appName) {
+            return $.when.apply($, autoload.map(function(appName) {
                 var path = urljoin(rootPath, appName);
 
                 return $.when(
@@ -59,15 +81,12 @@ $(document).ready(function() {
                         dataType: 'html'
                     })
                 ).then(function(meta, script, template) {
-                    var data = {
-                        id: _.first(meta).name,
-                        name: _.first(meta).name,
-                        title: _.first(meta).title,
-                        icon: _.first(meta).icon,
-                        run: new Function(_.first(script)),
-                        compiled: _.template(_.first(template)),
-                    };
-                    obj.add(data);
+                    var data = _.first(meta);
+                    data['id'] = data.name;
+                    data['script'] = new Function(_.first(script));
+                    data['compiled'] = _.template(_.first(template));
+
+                    collection.add(data);
                     Logger.debug(`Loaded app "${data.name}"`);
                 });
             }));
@@ -76,7 +95,7 @@ $(document).ready(function() {
 
     // Lazy load everything.
     loadApps('/core/', core).then(loadApps('/apps/', apps))
-                            .then(function() {
-                                initBackbone();
-                            });
+                            .then(initView())
+                            .then(initRouter())
+                            .then(hideLoader());
 });

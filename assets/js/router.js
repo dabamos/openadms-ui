@@ -1,5 +1,5 @@
 /**
- * @file      Backbone.js router.
+ * @file      Router for Backbone.js.
  * @author    Philipp Engel
  * @license   BSD-2-Clause
  * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2017
@@ -22,7 +22,8 @@ router.Router = Backbone.Router.extend({
     },
     showApp: function(name, args) {
         // Render additional apps.
-        this.view.renderApp(name, args);
+        if (name != null)
+            this.view.renderApp(name, args);
     },
     showCore: function(name, args) {
         // Render core apps.

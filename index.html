@@ -14,18 +14,13 @@
 
     <body>
 
-        <div class="ui fixed inverted menu">
+        <div class="ui teal inverted fixed menu">
             <div class="ui container">
                 <a href="#core/index" class="header item" style="font-weight: normal;"><strong>OpenADMS</strong>&nbsp;UI</a>
                 <a href="#core/dashboard" class="item">Dashboard</a>
-                <div class="ui simple dropdown item">
+                <div class="ui inverted simple dropdown item">
                     Apps <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <div class="item">
-                            <i class="dropdown icon"></i> All
-                            <div class="menu" id="appmenu"></div>
-                        </div>
-                    </div>
+                    <div class="menu" id="appmenu"></div>
                 </div>
             </div>
         </div>
@@ -36,10 +31,14 @@
             <div class="ui center aligned container">
                 <div class="ui horizontal inverted small divided link list">
                     <a class="item" href="#core/about">About</a>
+                    <a class="item" href="https://github.com/dabamos/openadms-ui/">GitHub</a>
                     <a class="item" href="#core/licence">Licence</a>
-                    <a class="item" href="https://github.com/dabamos/openadms-ui/">Source Code</a>
                 </div>
             </div>
+        </div>
+
+        <div class="ui active inverted page dimmer" id="loader">
+            <div class="ui large text loader">Loading app …</div>
         </div>
 
         <!-- Libraries and frameworks. //-->
