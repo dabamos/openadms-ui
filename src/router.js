@@ -6,7 +6,16 @@
  * @see       {@link https://www.dabamos.de/}
  */
 
-var router = {};
+'use strict';
+
+import 'backbone';
+
+let router = {};
+
+export {
+    router as default,
+    router as router
+};
 
 /**
  * Router.
@@ -18,16 +27,16 @@ router.Router = Backbone.Router.extend({
     routes: {
         '': 'showCore',
         'app/:name(/*args)': 'showApp',
-        'core/:name(/*args)': 'showCore',
+        'core/:name(/*args)': 'showCore'
     },
     showApp: function(name, args) {
         // Render additional apps.
-        if (name != null)
+        if (name !== null)
             this.view.renderApp(name, args);
     },
     showCore: function(name, args) {
         // Render core apps.
-        if (name == null)
+        if (name === null)
             name = 'index';
 
         this.view.renderCore(name, args);

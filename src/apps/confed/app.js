@@ -1,5 +1,3 @@
-Logger.debug(`Started app "confed"`);
-
 // Semantic UI.
 $('.ui.dropdown').dropdown({
     on: 'click'

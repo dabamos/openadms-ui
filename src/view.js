@@ -6,7 +6,21 @@
  * @see       {@link https://www.dabamos.de/}
  */
 
-var views = {};
+'use strict';
+
+import $ from 'jquery';
+import _ from 'underscore';
+import 'backbone';
+
+/* Importing one by one doesn't work. This is so fucking stupid. */
+import { core, apps } from './openadms-ui.js';
+
+let views = {};
+
+export {
+    views as default,
+    views as views
+};
 
 /**
  * View of the page.
@@ -17,9 +31,9 @@ views.Page = Backbone.View.extend({
         this.renderCore('index', null);
     },
     renderError: function(name) {
-        var model = core.get('error');
-        var compiled = model.get('compiled');
-        var meta = {
+        let model = core.get('error');
+        let compiled = model.get('compiled');
+        let meta = {
             'name': name,
             'title': model.get('title'),
             'icon': model.get('icon')
@@ -30,12 +44,12 @@ views.Page = Backbone.View.extend({
         return this;
     },
     renderApp: function(name, args) {
-        var model = apps.get(name);
+        let model = apps.get(name);
 
-        if (model != null) {
-            var run = model.get('script');
-            var compiled = model.get('compiled');
-            var meta = {
+        if (model !== null) {
+            let run = model.get('script');
+            let compiled = model.get('compiled');
+            let meta = {
                 'name': model.get('name'),
                 'title': model.get('title'),
                 'icon': model.get('icon'),
@@ -50,12 +64,12 @@ views.Page = Backbone.View.extend({
         return this;
     },
     renderCore: function(name, args) {
-        var model = core.get(name);
+        let model = core.get(name);
 
-        if (model != null) {
-            var run = model.get('script');
-            var compiled = model.get('compiled');
-            var meta = {
+        if (model !== null) {
+            let run = model.get('script');
+            let compiled = model.get('compiled');
+            let meta = {
                 'name': model.get('name'),
                 'title': model.get('title'),
                 'icon': model.get('icon')
@@ -109,7 +123,7 @@ views.AppMenu = Backbone.View.extend({
         this.collection.bind('remove', this.render);
     },
     render: function() {
-        var element = $(this.el);
+        let element = $(this.el);
 
         // Clear potential old entries first.
         element.empty();
@@ -117,7 +131,7 @@ views.AppMenu = Backbone.View.extend({
         // Go through the collection items.
         this.collection.forEach(function(item) {
             // Instantiate an AppItem view for each App.
-            var appItem = new views.AppItem({
+            let appItem = new views.AppItem({
                 model: item
             });
 

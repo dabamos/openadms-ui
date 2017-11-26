@@ -3,11 +3,22 @@
 **OpenADMS UI** is a single-page application for the remote control of
 [OpenADMS Node](https://github.com/dabamos/openadms-node/) and
 [OpenADMS Server](https://github.com/dabamos/openadms-server/)
-instances. It is written in JavaScript and relies on jQuery, Backbone.js,
+instances. It is written in ECMAScript 2015 and relies on jQuery, Backbone.js,
 and Semantic UI.
 
 ## Installation
-Clone the repository with Git and run OpenADMS UI on an arbitrary web server.
+Clone the repository with Git and run:
+```
+$ npm install
+```
+
+## Build
+Build OpenADMS UI with:
+```
+$ npm run-script build
+```
+
+## Run
 For testing, you can use ``http.server`` of Python 3 inside the OpenADMS UI
 directory:
 ```

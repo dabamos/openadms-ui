@@ -6,7 +6,16 @@
  * @see       {@link https://www.dabamos.de/}
  */
 
-var models = {};
+'use strict';
+
+import 'backbone';
+
+let models = {};
+
+export {
+    models as default,
+    models as models
+};
 
 /**
  * App base model.
@@ -17,7 +26,7 @@ models.App = Backbone.Model.extend({
         title: 'Undefined', // The title of the app.
         icon: 'help',       // The name of the Semantic UI icon.
         compiled: null,     // The compiled Underscore.js template.
-        script: null,       // The app function.
+        script: null        // The app function.
     }
 });
 
