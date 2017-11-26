@@ -1,0 +1,29 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+@font-face {
+  font-family: 'Inter-UI';
+  font-style: normal;
+  src: local('Inter-UI Regular'),
+       url("@{fontPath}/Inter-UI-Regular.woff2") format('woff2'),
+       url("@{fontPath}/Inter-UI-Regular.woff") format('woff'),
+}
+
+@font-face {
+  font-family: 'Inter-UI';
+  font-weight: bold;
+  src: local('Inter-UI Bold'),
+       url("@{fontPath}/Inter-UI-Bold.woff2") format('woff2'),
+       url("@{fontPath}/Inter-UI-Bold.woff") format('woff'),
+}
+
+@font-face {
+  font-family: 'Inter-UI';
+  font-style: italic;
+  src: local('Inter-UI Bold'),
+       url("@{fontPath}/Inter-UI-Italic.woff2") format('woff2'),
+       url("@{fontPath}/Inter-UI-Italic.woff") format('woff'),
+}
+
+@importGoogleFonts : false;
