@@ -55,13 +55,13 @@ views.Page = Backbone.View.extend({
             logger.debug(`Rendering app "${name}"`);
             let run = model.get('script');
             let compiled = model.get('compiled');
-            let meta = {
+            let vars = {
                 'name': model.get('name'),
                 'title': model.get('title'),
                 'icon': model.get('icon'),
             };
 
-            this.$el.html(compiled(meta));
+            this.$el.html(compiled(vars));
             run();
         } else {
             logger.debug(`App "${name}" not found`);
@@ -77,13 +77,13 @@ views.Page = Backbone.View.extend({
             logger.debug(`Rendering core app "${name}"`);
             let run = model.get('script');
             let compiled = model.get('compiled');
-            let meta = {
+            let vars = {
                 'name': model.get('name'),
                 'title': model.get('title'),
                 'icon': model.get('icon')
             };
 
-            this.$el.html(compiled(meta));
+            this.$el.html(compiled(vars));
             run();
         } else {
             logger.debug(`Core App "${name}" not found`);

@@ -16,16 +16,18 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import Logger from 'js-logger';
-import * as urljoin from 'urljoin';
+import path from 'path';
 import 'semantic-ui';
 
 import models from './model.js';
 import views from './view.js';
 import router from './router.js';
 
-/* Global collections to store `App` models. */
+/* Collections to store App models. */
 let core = new models.AppsList();
 let apps = new models.AppsList();
+
+let rootAppPath = '/src';
 
 /* Why is this shit even necessary? */
 export {
@@ -38,12 +40,18 @@ export {
 Logger.useDefaults();
 let logger = Logger.get('root');
 
-/* Hacking in some global variables while in strict mode. */
+/* Hacking in some global variables to be used by Apps while in strict mode. */
 (function(global) {
-    global.g = {
-        Logger: Logger,
-        Module: models.Module,
-        ModulesList: models.ModulesList
+    global.$ = $;
+    global._ = _;
+    global.Backbone = Backbone;
+    global.Logger = Logger;
+    global.OpenADMS = {
+        models: {
+            App: models.App,
+            AppsList: models.AppsList
+        },
+        loadApps: loadApps
     };
 })(window);
 
@@ -81,25 +89,25 @@ function initRouter() {
  */
 function loadApps(rootPath, collection) {
     return $.ajax({
-        url: urljoin(rootPath, 'apps.json'),
+        url: path.join(rootPath, 'apps.json'),
         dataType: 'json'
     }).then(function(kwargs) {
         let autoLoad = kwargs.autoload;
 
         return $.when.apply($, autoLoad.map(function(appName) {
-            let appPath = urljoin(rootPath, appName);
+            let appPath = path.join(rootPath, appName);
 
             return $.when(
                 $.ajax({
-                    url: urljoin(appPath, 'meta.json'),
+                    url: path.join(appPath, 'meta.json'),
                     dataType: 'json'
                 }),
                 $.ajax({
-                    url: urljoin(appPath, 'app.js'),
+                    url: path.join(appPath, 'app.js'),
                     dataType: 'script'
                 }),
                 $.ajax({
-                    url: urljoin(appPath, 'template.html'),
+                    url: path.join(appPath, 'template.html'),
                     dataType: 'html'
                 })
             ).then(function(meta, script, template) {
@@ -117,8 +125,11 @@ function loadApps(rootPath, collection) {
 }
 
 $(document).ready(function() {
+    let corePath = path.join(rootAppPath, 'core');
+    let appsPath = path.join(rootAppPath, 'apps');
+
     /* Lazy load everything. */
-    $.when(loadApps('/src/core/', core), loadApps('/src/apps/', apps))
+    $.when(loadApps(corePath, core), loadApps(appsPath, apps))
         .then(initView)
         .then(initRouter)
         .done(hideLoader);

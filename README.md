@@ -24,12 +24,12 @@ Build OpenADMS UI with:
 ```
 $ npm run-script build
 ```
-If you changed the Semantic UI source files, build it with Gulp:
+If you changed the Semantic UI styles, re-build them with Gulp:
 ```
 $ cd semantic/
-$ ../node_modules/gulp/bin/gulp.js build
+$ ../node_modules/gulp/bin/gulp.js build-css
 ```
-The compiled files will be stored in ``semantic/dist/``.
+The packaged CSS files will be stored in ``assets/css/``.
 
 ## JSDoc
 Run JSDoc to generate the source code documentation:

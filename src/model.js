@@ -36,23 +36,3 @@ models.App = Backbone.Model.extend({
 models.AppsList = Backbone.Collection.extend({
     model: models.App
 });
-
-/**
- * Module model for diversification of Apps.
- */
-models.Module = Backbone.Model.extend({
-    defaults: {
-        name: 'undefined',  // The name of the app.
-        title: 'Undefined', // The title of the app.
-        icon: 'help',       // The name of the Semantic UI icon.
-        compiled: null,     // The compiled Underscore.js template.
-        script: null        // The app function.
-    }
-});
-
-/**
- * ModulesList collection.
- */
-models.ModulesList = Backbone.Collection.extend({
-    model: models.Module
-});

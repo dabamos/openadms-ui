@@ -5,12 +5,12 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 module.exports = {
     entry: './src/openadms-ui.js',
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, 'assets/js'),
         filename: 'bundle.js'
     },
     resolve: {
         alias: {
-            'semantic-ui': path.resolve('./semantic/dist/semantic.js')
+            'semantic-ui': path.resolve('./assets/js/semantic.min.js')
         }
     },
     module: {
@@ -25,10 +25,10 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             $: "jquery",
-            jQuery: "jquery",
-            "window.jQuery": "jquery"
+            jQuery: "jquery"
         }),
         new UglifyJsPlugin()
     ],
+    externals: ['window'],
     devtool: 'source-map'
 };
