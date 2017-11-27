@@ -19,7 +19,6 @@ import Logger from 'js-logger';
 import * as urljoin from 'urljoin';
 import 'semantic-ui';
 
-/* I don't even know if this is the correct way ... */
 import models from './model.js';
 import views from './view.js';
 import router from './router.js';
@@ -37,41 +36,32 @@ export {
 
 /* Initialise the logger. */
 Logger.useDefaults();
-let logger = Logger.get('openadms-ui');
+let logger = Logger.get('root');
 
 /**
  * Hides the Semantic UI loader screen.
- * @return {function} - Function to run deferred.
  */
 function hideLoader() {
-    return function() {
-        let loader = $('#loader');
-        loader.dimmer('show');
-        loader.dimmer('hide');
-    };
+    let loader = $('#loader');
+    loader.dimmer('show');
+    loader.dimmer('hide');
 }
 
 /**
  * Creates and renders page and App menu views.
- * @return {function} - Function to run deferred.
  */
 function initView() {
-    return function() {
-        views.page = new views.Page();
-        views.appMenu = new views.AppMenu(apps);
-        views.appMenu.render();
-    };
+    views.page = new views.Page();
+    views.appMenu = new views.AppMenu(apps);
+    views.appMenu.render();
 }
 
 /**
  * Creates and starts the Backbone.js router.
- * @return {function} - Function to run deferred.
  */
 function initRouter() {
-    return function() {
-        router.router = new router.Router(views.page);
-        Backbone.history.start();
-    };
+    router.router = new router.Router(views.page);
+    Backbone.history.start();
 }
 
 /**
@@ -88,19 +78,19 @@ function loadApps(rootPath, collection) {
         let autoLoad = kwargs.autoload;
 
         return $.when.apply($, autoLoad.map(function(appName) {
-            let path = urljoin(rootPath, appName);
+            let appPath = urljoin(rootPath, appName);
 
             return $.when(
                 $.ajax({
-                    url: urljoin(path, 'meta.json'),
+                    url: urljoin(appPath, 'meta.json'),
                     dataType: 'json'
                 }),
                 $.ajax({
-                    url: urljoin(path, 'app.js'),
+                    url: urljoin(appPath, 'app.js'),
                     dataType: 'script'
                 }),
                 $.ajax({
-                    url: urljoin(path, 'template.html'),
+                    url: urljoin(appPath, 'template.html'),
                     dataType: 'html'
                 })
             ).then(function(meta, script, template) {
@@ -119,8 +109,9 @@ function loadApps(rootPath, collection) {
 
 $(document).ready(function() {
     /* Lazy load everything. */
-    loadApps('/src/core/', core).then(loadApps('/src/apps/', apps))
-                                .then(initView())
-                                .then(initRouter())
-                                .then(hideLoader());
+    $.when(loadApps('/src/core/', core))
+        .then(loadApps('/src/apps/', apps))
+        .then(initView)
+        .then(initRouter)
+        .done(hideLoader);
 });

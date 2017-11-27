@@ -13804,7 +13804,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
   return Backbone;
 });
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 3 */
@@ -13819,7 +13819,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_underscore__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_underscore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_underscore__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_logger__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_logger__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_js_logger___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_js_logger__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_urljoin__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_urljoin___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_urljoin__);
@@ -13829,13 +13829,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__view_js__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__router_js__ = __webpack_require__(20);
 /**
- * @file      OpenADMS UI
+ * @file      OpenADMS UI is a single-page application for the remote control of
+ *            OpenADMS Node and OpenADMS Server instances. It is written in
+ *            ECMAScript 2015 and relies on jQuery, Backbone.js, and Semantic UI.
  * @author    Philipp Engel
  * @license   BSD-2-Clause
  * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2017
- * @see       {@link https://www.dabamos.de/}
+ * @see       {@link https://github.com/dabamos/openadms-ui/}
  */
 
+/* I really hate JavaScript. Front-end programming is for monkeys. See:
+   https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f */
 
 
 /* Obscure imports. */
@@ -13846,7 +13850,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* I don't know if this is the correct way ... */
 
 
 
@@ -13860,115 +13863,80 @@ let apps = new __WEBPACK_IMPORTED_MODULE_5__model_js__["a" /* default */].AppsLi
 
 /* Initialise the logger. */
 __WEBPACK_IMPORTED_MODULE_2_js_logger___default.a.useDefaults();
-let logger = __WEBPACK_IMPORTED_MODULE_2_js_logger___default.a.get('openadms-ui');
+let logger = __WEBPACK_IMPORTED_MODULE_2_js_logger___default.a.get('root');
+
+/**
+ * Hides the Semantic UI loader screen.
+ */
+function hideLoader() {
+    let loader = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#loader');
+    loader.dimmer('show');
+    loader.dimmer('hide');
+}
+
+/**
+ * Creates and renders page and App menu views.
+ */
+function initView() {
+    __WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].page = new __WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].Page();
+    __WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].appMenu = new __WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].AppMenu(apps);
+    __WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].appMenu.render();
+}
+
+/**
+ * Creates and starts the Backbone.js router.
+ */
+function initRouter() {
+    __WEBPACK_IMPORTED_MODULE_7__router_js__["a" /* default */].router = new __WEBPACK_IMPORTED_MODULE_7__router_js__["a" /* default */].Router(__WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].page);
+    Backbone.history.start();
+}
+
+/**
+ * Loads apps from a root path and stores them in a given collection.
+ * @param  {string}              rootPath   - Path to load the apps from.
+ * @param  {Backbone.Collection} collection - Collection to store the apps in.
+ * @return {function}                       - Function to run deferred.
+ */
+function loadApps(rootPath, collection) {
+    return __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.ajax({
+        url: __WEBPACK_IMPORTED_MODULE_3_urljoin__(rootPath, 'apps.json'),
+        dataType: 'json'
+    }).then(function (kwargs) {
+        let autoLoad = kwargs.autoload;
+
+        return __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.when.apply(__WEBPACK_IMPORTED_MODULE_0_jquery___default.a, autoLoad.map(function (appName) {
+            let appPath = __WEBPACK_IMPORTED_MODULE_3_urljoin__(rootPath, appName);
+
+            return __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.when(__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.ajax({
+                url: __WEBPACK_IMPORTED_MODULE_3_urljoin__(appPath, 'meta.json'),
+                dataType: 'json'
+            }), __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.ajax({
+                url: __WEBPACK_IMPORTED_MODULE_3_urljoin__(appPath, 'app.js'),
+                dataType: 'script'
+            }), __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.ajax({
+                url: __WEBPACK_IMPORTED_MODULE_3_urljoin__(appPath, 'template.html'),
+                dataType: 'html'
+            })).then(function (meta, script, template) {
+                let data = __WEBPACK_IMPORTED_MODULE_1_underscore___default.a.first(meta);
+
+                data['id'] = data.name;
+                data['script'] = new Function(__WEBPACK_IMPORTED_MODULE_1_underscore___default.a.first(script));
+                data['compiled'] = __WEBPACK_IMPORTED_MODULE_1_underscore___default.a.template(__WEBPACK_IMPORTED_MODULE_1_underscore___default.a.first(template));
+
+                collection.add(data);
+                logger.debug(`Loaded app "${data.name}"`);
+            });
+        }));
+    });
+}
 
 __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).ready(function () {
-    /**
-     * Hides loader screen.
-     * @return {function} - Function to run deferred.
-     */
-    function hideLoader() {
-        return function () {
-            let loader = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#loader');
-            loader.dimmer('show');
-            loader.dimmer('hide');
-        };
-    }
-
-    /**
-     * Creates and renders views.
-     * @return {function} - Function to run deferred.
-     */
-    function initView() {
-        return function () {
-            __WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].page = new __WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].Page();
-            __WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].appMenu = new __WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].AppMenu(apps);
-            __WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].appMenu.render();
-        };
-    }
-
-    /**
-     * Creates and starts router.
-     * @return {function} - Function to run deferred.
-     */
-    function initRouter() {
-        return function () {
-            __WEBPACK_IMPORTED_MODULE_7__router_js__["a" /* default */].router = new __WEBPACK_IMPORTED_MODULE_7__router_js__["a" /* default */].Router(__WEBPACK_IMPORTED_MODULE_6__view_js__["a" /* default */].page);
-            Backbone.history.start();
-        };
-    }
-
-    /**
-     * Loads apps from a root path and stores them in a given collection.
-     * @param  {string}              rootPath   - Path to load the apps from.
-     * @param  {Backbone.Collection} collection - Collection to store the apps in.
-     * @return {function}                       - Function to run deferred.
-     */
-    function loadApps(rootPath, collection) {
-        return __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.ajax({
-            url: __WEBPACK_IMPORTED_MODULE_3_urljoin__(rootPath, 'apps.json'),
-            dataType: 'json'
-        }).then(function (kwargs) {
-            let autoLoad = kwargs.autoload;
-
-            return __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.when.apply(__WEBPACK_IMPORTED_MODULE_0_jquery___default.a, autoLoad.map(function (appName) {
-                let path = __WEBPACK_IMPORTED_MODULE_3_urljoin__(rootPath, appName);
-
-                return __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.when(__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.ajax({
-                    url: __WEBPACK_IMPORTED_MODULE_3_urljoin__(path, 'meta.json'),
-                    dataType: 'json'
-                }), __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.ajax({
-                    url: __WEBPACK_IMPORTED_MODULE_3_urljoin__(path, 'app.js'),
-                    dataType: 'script'
-                }), __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.ajax({
-                    url: __WEBPACK_IMPORTED_MODULE_3_urljoin__(path, 'template.html'),
-                    dataType: 'html'
-                })).then(function (meta, script, template) {
-                    let data = __WEBPACK_IMPORTED_MODULE_1_underscore___default.a.first(meta);
-                    data['id'] = data.name;
-                    data['script'] = new Function(__WEBPACK_IMPORTED_MODULE_1_underscore___default.a.first(script));
-                    data['compiled'] = __WEBPACK_IMPORTED_MODULE_1_underscore___default.a.template(__WEBPACK_IMPORTED_MODULE_1_underscore___default.a.first(template));
-
-                    collection.add(data);
-                    logger.debug(`Loaded app "${data.name}"`);
-                });
-            }));
-        });
-    }
-
-    // Lazy load everything.
-    loadApps('/src/core/', core).then(loadApps('/src/apps/', apps)).then(initView()).then(initRouter()).then(hideLoader());
+    /* Lazy load everything. */
+    __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.when(loadApps('/src/core/', core)).then(loadApps('/src/apps/', apps)).then(initView).then(initRouter).done(hideLoader);
 });
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -14244,6 +14212,33 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 		global.Logger = Logger;
 	}
 }(this));
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
 
 
 /***/ }),
@@ -15689,7 +15684,7 @@ Url.prototype.parseHost = function() {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)(module), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)(module), __webpack_require__(5)))
 
 /***/ }),
 /* 10 */
@@ -17112,7 +17107,7 @@ onRefresh:function(){},metadata:{src:'src'},className:{fixed:'fixed',placeholder
  * @author    Philipp Engel
  * @license   BSD-2-Clause
  * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2017
- * @see       {@link https://www.dabamos.de/}
+ * @see       {@link https://github.com/dabamos/openadms-ui/}
  */
 
 
@@ -17143,6 +17138,26 @@ models.AppsList = Backbone.Collection.extend({
     model: models.App
 });
 
+/**
+ * Module model for diversification of Apps.
+ */
+models.Module = Backbone.Model.extend({
+    defaults: {
+        name: 'undefined', // The name of the app.
+        title: 'Undefined', // The title of the app.
+        icon: 'help', // The name of the Semantic UI icon.
+        compiled: null, // The compiled Underscore.js template.
+        script: null // The app function.
+    }
+});
+
+/**
+ * ModulesList collection.
+ */
+models.ModulesList = Backbone.Collection.extend({
+    model: models.Module
+});
+
 /***/ }),
 /* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -17156,14 +17171,17 @@ models.AppsList = Backbone.Collection.extend({
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_underscore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_underscore__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_backbone__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_backbone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_backbone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__openadms_ui_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_js_logger__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_js_logger___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_js_logger__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__openadms_ui_js__ = __webpack_require__(3);
 /**
  * @file      Views for Backbone.js.
  * @author    Philipp Engel
  * @license   BSD-2-Clause
  * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2017
- * @see       {@link https://www.dabamos.de/}
+ * @see       {@link https://github.com/dabamos/openadms-ui/}
  */
+
 
 
 
@@ -17178,16 +17196,20 @@ let views = {};
 
 
 
+/* Initialise the logger. */
+__WEBPACK_IMPORTED_MODULE_3_js_logger___default.a.useDefaults();
+let logger = __WEBPACK_IMPORTED_MODULE_3_js_logger___default.a.get('view');
+
 /**
  * View of the page.
  */
 views.Page = Backbone.View.extend({
     el: '#main',
     initialize: function () {
-        this.renderCore('index', null);
+        // this.renderCore('index', null);
     },
     renderError: function (name) {
-        let model = __WEBPACK_IMPORTED_MODULE_3__openadms_ui_js__["core"].get('error');
+        let model = __WEBPACK_IMPORTED_MODULE_4__openadms_ui_js__["core"].get('error');
         let compiled = model.get('compiled');
         let meta = {
             'name': name,
@@ -17200,9 +17222,10 @@ views.Page = Backbone.View.extend({
         return this;
     },
     renderApp: function (name, args) {
-        let model = __WEBPACK_IMPORTED_MODULE_3__openadms_ui_js__["apps"].get(name);
+        let model = __WEBPACK_IMPORTED_MODULE_4__openadms_ui_js__["apps"].get(name);
 
-        if (model !== null) {
+        if (model != null) {
+            logger.debug(`Rendering app "${name}"`);
             let run = model.get('script');
             let compiled = model.get('compiled');
             let meta = {
@@ -17214,15 +17237,17 @@ views.Page = Backbone.View.extend({
             this.$el.html(compiled(meta));
             run(name);
         } else {
+            logger.debug(`App "${name}" not found`);
             this.renderError(name);
         }
 
         return this;
     },
     renderCore: function (name, args) {
-        let model = __WEBPACK_IMPORTED_MODULE_3__openadms_ui_js__["core"].get(name);
+        let model = __WEBPACK_IMPORTED_MODULE_4__openadms_ui_js__["core"].get(name);
 
-        if (model !== null) {
+        if (model != null) {
+            logger.debug(`Rendering core app "${name}"`);
             let run = model.get('script');
             let compiled = model.get('compiled');
             let meta = {
@@ -17234,6 +17259,7 @@ views.Page = Backbone.View.extend({
             this.$el.html(compiled(meta));
             run(name);
         } else {
+            logger.debug(`Core App "${name}" not found`);
             this.renderError(name);
         }
 

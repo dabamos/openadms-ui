@@ -3,7 +3,7 @@
  * @author    Philipp Engel
  * @license   BSD-2-Clause
  * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2017
- * @see       {@link https://www.dabamos.de/}
+ * @see       {@link https://github.com/dabamos/openadms-ui/}
  */
 
 'use strict';
@@ -11,6 +11,7 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import 'backbone';
+import Logger from 'js-logger';
 
 /* Importing one by one doesn't work. This is so fucking stupid. */
 import { core, apps } from './openadms-ui.js';
@@ -22,13 +23,17 @@ export {
     views as views
 };
 
+/* Initialise the logger. */
+Logger.useDefaults();
+let logger = Logger.get('view');
+
 /**
  * View of the page.
  */
 views.Page = Backbone.View.extend({
     el: '#main',
     initialize: function() {
-        this.renderCore('index', null);
+        // this.renderCore('index', null);
     },
     renderError: function(name) {
         let model = core.get('error');
@@ -46,7 +51,8 @@ views.Page = Backbone.View.extend({
     renderApp: function(name, args) {
         let model = apps.get(name);
 
-        if (model !== null) {
+        if (model != null) {
+            logger.debug(`Rendering app "${name}"`);
             let run = model.get('script');
             let compiled = model.get('compiled');
             let meta = {
@@ -58,6 +64,7 @@ views.Page = Backbone.View.extend({
             this.$el.html(compiled(meta));
             run(name);
         } else {
+            logger.debug(`App "${name}" not found`);
             this.renderError(name);
         }
 
@@ -66,7 +73,8 @@ views.Page = Backbone.View.extend({
     renderCore: function(name, args) {
         let model = core.get(name);
 
-        if (model !== null) {
+        if (model != null) {
+            logger.debug(`Rendering core app "${name}"`);
             let run = model.get('script');
             let compiled = model.get('compiled');
             let meta = {
@@ -78,6 +86,7 @@ views.Page = Backbone.View.extend({
             this.$el.html(compiled(meta));
             run(name);
         } else {
+            logger.debug(`Core App "${name}" not found`);
             this.renderError(name);
         }
 
