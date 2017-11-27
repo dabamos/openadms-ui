@@ -26,4 +26,4 @@
        url("@{fontPath}/Inter-UI-Italic.woff") format('woff'),
 }
 
-@importGoogleFonts : false;
+@importGoogleFonts: false;
