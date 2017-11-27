@@ -1339,8 +1339,8 @@ Floated Menu / Item
 }
 .ui.menu .blue.active.item,
 .ui.blue.menu .active.item {
-  border-color: #2185D0 !important;
-  color: #2185D0 !important;
+  border-color: #13547a !important;
+  color: #13547a !important;
 }
 .ui.menu .violet.active.item,
 .ui.violet.menu .active.item {
@@ -1490,6 +1490,20 @@ Floated Menu / Item
 ---------------*/
 
 
+/* Gradient */
+.ui.inverted.menu .gradient.active.item,
+.ui.inverted.gradient.menu {
+  background-image: -webkit-gradient(linear, left top, right top, from(#13547a), to(#80d0c7));
+  background-image: -webkit-linear-gradient(left, #13547a 0%, #80d0c7 100%);
+  background-image: linear-gradient(to right, #13547a 0%, #80d0c7 100%);
+}
+.ui.inverted.blue.menu .item:before {
+  background-color: rgba(34, 36, 38, 0.1);
+}
+.ui.inverted.blue.menu .active.item {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
 /* Red */
 .ui.inverted.menu .red.active.item,
 .ui.inverted.red.menu {
@@ -1565,7 +1579,7 @@ Floated Menu / Item
 /* Blue */
 .ui.inverted.menu .blue.active.item,
 .ui.inverted.blue.menu {
-  background-color: #2185D0;
+  background-color: #13547a;
 }
 .ui.inverted.blue.menu .item:before {
   background-color: rgba(34, 36, 38, 0.1);

@@ -1427,6 +1427,18 @@ Floated Menu / Item
     Inverted
 ---------------*/
 
+/* Gradient */
+.ui.inverted.menu .gradient.active.item,
+.ui.inverted.gradient.menu {
+  background-image: @gradient;
+}
+.ui.inverted.blue.menu .item:before {
+  background-color: @invertedColoredDividerBackground;
+}
+.ui.inverted.blue.menu .active.item {
+  background-color: @invertedColoredActiveBackground !important;
+}
+
 /* Red */
 .ui.inverted.menu .red.active.item,
 .ui.inverted.red.menu {
