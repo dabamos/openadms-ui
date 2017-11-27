@@ -15,7 +15,6 @@ $ python3 -m http.server 8080
 ```
 Open your web browser and access ``http://localhost:8080/``.
 
-
 ## Build
 Clone the repository with Git and run:
 ```
