@@ -62,7 +62,7 @@ views.Page = Backbone.View.extend({
             };
 
             this.$el.html(compiled(meta));
-            run(name);
+            run();
         } else {
             logger.debug(`App "${name}" not found`);
             this.renderError(name);
@@ -84,7 +84,7 @@ views.Page = Backbone.View.extend({
             };
 
             this.$el.html(compiled(meta));
-            run(name);
+            run();
         } else {
             logger.debug(`Core App "${name}" not found`);
             this.renderError(name);

@@ -38,6 +38,15 @@ export {
 Logger.useDefaults();
 let logger = Logger.get('root');
 
+/* Hacking in some global variables while in strict mode. */
+(function(global) {
+    global.g = {
+        Logger: Logger,
+        Module: models.Module,
+        ModulesList: models.ModulesList
+    };
+})(window);
+
 /**
  * Hides the Semantic UI loader screen.
  */
@@ -109,8 +118,7 @@ function loadApps(rootPath, collection) {
 
 $(document).ready(function() {
     /* Lazy load everything. */
-    $.when(loadApps('/src/core/', core))
-        .then(loadApps('/src/apps/', apps))
+    $.when(loadApps('/src/core/', core), loadApps('/src/apps/', apps))
         .then(initView)
         .then(initRouter)
         .done(hideLoader);

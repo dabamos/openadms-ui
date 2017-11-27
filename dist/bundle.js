@@ -13865,6 +13865,15 @@ let apps = new __WEBPACK_IMPORTED_MODULE_5__model_js__["a" /* default */].AppsLi
 __WEBPACK_IMPORTED_MODULE_2_js_logger___default.a.useDefaults();
 let logger = __WEBPACK_IMPORTED_MODULE_2_js_logger___default.a.get('root');
 
+/* Hacking in some global variables while in strict mode. */
+(function (global) {
+    global.g = {
+        Logger: __WEBPACK_IMPORTED_MODULE_2_js_logger___default.a,
+        Module: __WEBPACK_IMPORTED_MODULE_5__model_js__["a" /* default */].Module,
+        ModulesList: __WEBPACK_IMPORTED_MODULE_5__model_js__["a" /* default */].ModulesList
+    };
+})(window);
+
 /**
  * Hides the Semantic UI loader screen.
  */
@@ -13932,7 +13941,7 @@ function loadApps(rootPath, collection) {
 
 __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).ready(function () {
     /* Lazy load everything. */
-    __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.when(loadApps('/src/core/', core)).then(loadApps('/src/apps/', apps)).then(initView).then(initRouter).done(hideLoader);
+    __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.when(loadApps('/src/core/', core), loadApps('/src/apps/', apps)).then(initView).then(initRouter).done(hideLoader);
 });
 
 /***/ }),
@@ -17107,7 +17116,7 @@ onRefresh:function(){},metadata:{src:'src'},className:{fixed:'fixed',placeholder
  * @author    Philipp Engel
  * @license   BSD-2-Clause
  * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2017
- * @see       {@link https://github.com/dabamos/openadms-ui/}
+ * @see       {@link https://github.com/dabamos/openadms-ui/}()
  */
 
 
@@ -17235,7 +17244,7 @@ views.Page = Backbone.View.extend({
             };
 
             this.$el.html(compiled(meta));
-            run(name);
+            run();
         } else {
             logger.debug(`App "${name}" not found`);
             this.renderError(name);
@@ -17257,7 +17266,7 @@ views.Page = Backbone.View.extend({
             };
 
             this.$el.html(compiled(meta));
-            run(name);
+            run();
         } else {
             logger.debug(`Core App "${name}" not found`);
             this.renderError(name);
