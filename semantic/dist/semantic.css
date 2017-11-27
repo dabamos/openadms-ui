@@ -573,6 +573,15 @@ body {
   line-height: 1.4285em;
   color: rgba(0, 0, 0, 0.87);
   font-smoothing: antialiased;
+  /* Added for OpenADMS UI: */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 100vh;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
 /*******************************
@@ -4955,6 +4964,17 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
  * http://opensource.org/licenses/MIT
  *
  */
+
+/*******************************
+          OpenADMS UI
+*******************************/
+
+.main.container {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  margin: 5em 0 5em 0;
+}
 
 /*******************************
             Container
