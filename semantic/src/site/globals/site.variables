@@ -35,4 +35,8 @@
     Brand Colors
 --------------------*/
 @blue: #13547a;
+
+/*-------------------
+    Backgrounds
+--------------------*/
 @gradient: linear-gradient(to right, #13547a 0%, #80d0c7 100%);
