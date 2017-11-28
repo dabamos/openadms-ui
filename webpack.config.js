@@ -10,7 +10,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'semantic-ui': path.resolve('./assets/js/semantic.min.js')
+            'semantic-ui': path.resolve('./semantic/dist/semantic.js')
         }
     },
     module: {
