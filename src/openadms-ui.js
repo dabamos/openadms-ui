@@ -27,7 +27,8 @@ import router from './router.js';
 let core = new models.AppsList();
 let apps = new models.AppsList();
 
-let rootAppPath = '/src';
+/* Path to the App directories. */
+let rootAppPath = '/src/';
 
 /* Why is this shit even necessary? */
 export {
@@ -46,7 +47,7 @@ let logger = Logger.get('root');
     global._ = _;
     global.Backbone = Backbone;
     global.Logger = Logger;
-    global.OpenADMS = {
+    global.UI = {
         models: {
             App: models.App,
             AppsList: models.AppsList
@@ -128,7 +129,7 @@ $(document).ready(function() {
     let corePath = path.join(rootAppPath, 'core');
     let appsPath = path.join(rootAppPath, 'apps');
 
-    /* Lazy load everything. */
+    /* Using Promises to pre-load everything. */
     $.when(loadApps(corePath, core), loadApps(appsPath, apps))
         .then(initView)
         .then(initRouter)

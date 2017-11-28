@@ -16,7 +16,8 @@ $ python3 -m http.server 8080
 Open your web browser and access ``http://localhost:8080/``.
 
 ## Build
-Clone the repository with Git and run:
+[Node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/) are required
+to build OpenADMS UI. Clone the repository with Git and run:
 ```
 $ npm install
 ```
@@ -34,7 +35,7 @@ The packaged CSS files will be stored in ``assets/css/``.
 ## JSDoc
 Run JSDoc to generate the source code documentation:
 ```
-$ ./node_modules/jsdoc/jsdoc.js ./src/openadms-ui.js -d ./doc
+$ ./node_modules/jsdoc/jsdoc.js -r ./src -d ./doc
 ```
 You will find the HTML pages in directory ``doc/``.
 

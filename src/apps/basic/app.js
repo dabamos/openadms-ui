@@ -4,7 +4,7 @@ logger.debug('Basic App is online');
 let models = {};
 let views = {};
 
-let apps = new OpenADMS.models.AppsList();
+let apps = new UI.models.AppsList();
 
 let data = {
     id: 'test',
@@ -60,6 +60,9 @@ views.AppItemsList = Backbone.View.extend({
     }
 });
 
+/**
+ * Module view for second-degree App contents.
+ */
 views.Module = Backbone.View.extend({
     el: '#view',
     render: function(name, args) {
