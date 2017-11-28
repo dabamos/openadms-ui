@@ -25,7 +25,7 @@ Build OpenADMS UI with:
 ```
 $ npm run-script build
 ```
-If you changed the Semantic UI styles, re-build them with Gulp:
+If you change the Semantic UI styles, re-build them with Gulp:
 ```
 $ cd semantic/
 $ ../node_modules/gulp/bin/gulp.js build-css
