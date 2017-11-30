@@ -28,7 +28,7 @@ let core = new models.AppsList();
 let apps = new models.AppsList();
 
 /* Path to the App directories. */
-let rootAppPath = '/src/';
+let rootAppPath = 'src/';
 
 /* Why is this shit even necessary? */
 export {

@@ -16,8 +16,8 @@ $ python3 -m http.server 8080
 Open your web browser and access ``http://localhost:8080/``.
 
 ## Build
-[Node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/) are required
-to build OpenADMS UI. Clone the repository with Git and run:
+[Node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/) are
+required to build OpenADMS UI. Clone the repository with Git and run:
 ```
 $ npm install
 ```
@@ -25,12 +25,14 @@ Build OpenADMS UI with:
 ```
 $ npm run-script build
 ```
-If you change the Semantic UI styles, re-build them with Gulp:
+The output file ``bundle.js`` will be saved to ``assets/js/``.
+If you change any Semantic UI styles, re-package the CSS files with Gulp:
 ```
 $ cd semantic/
 $ ../node_modules/gulp/bin/gulp.js build-css
 ```
-The packaged CSS files will be stored in ``assets/css/``.
+The output files ``semantic.css`` and ``semantic.min.css`` will be stored
+in ``assets/css/``.
 
 ## JSDoc
 Run JSDoc to generate the source code documentation:
