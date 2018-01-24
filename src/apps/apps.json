@@ -1,6 +1,6 @@
 {
-    "autoload": [
-        "basic",
-        "confed"
-    ]
+  "autoload": [
+    "confed",
+    "proman"
+  ]
 }

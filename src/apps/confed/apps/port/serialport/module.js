@@ -1,4 +1,4 @@
-var editor = {};
+let editor = {};
 
 editor.ModuleModel = Backbone.Model.extend({
     initialize: function(data){

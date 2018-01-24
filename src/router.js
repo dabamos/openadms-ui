@@ -30,12 +30,12 @@ router.Router = Backbone.Router.extend({
         'core/:name(/*args)': 'showCore'
     },
     showApp: function(name, args) {
-        // Render additional apps.
+        /* Render additional apps. */
         if (name !== null)
             this.view.renderApp(name, args);
     },
     showCore: function(name, args) {
-        // Render core apps.
+        /* Render core apps. */
         if (name === null)
             name = 'index';
 

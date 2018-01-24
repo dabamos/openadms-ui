@@ -1,5 +1,5 @@
 {
-    "name": "confed",
-    "title": "Configuration Editor",
-    "icon": "settings"
+  "name": "confed",
+  "title": "Configuration Editor",
+  "icon": "options"
 }

@@ -1,9 +1,9 @@
 {
-    "autoload": [
-        "about",
-        "dashboard",
-        "error",
-        "index",
-        "licence"
-    ]
+  "autoload": [
+    "about",
+    "dashboard",
+    "error",
+    "index",
+    "licence"
+  ]
 }

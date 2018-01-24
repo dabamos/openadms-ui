@@ -1,5 +1,5 @@
 {
-    "name": "error",
-    "title": "Page not found",
-    "icon": "file"
+  "name": "error",
+  "title": "Error 404",
+  "icon": "file"
 }

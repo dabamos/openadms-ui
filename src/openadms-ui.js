@@ -4,7 +4,7 @@
  *            ECMAScript 2015 and relies on jQuery, Backbone.js, and Semantic UI.
  * @author    Philipp Engel
  * @license   BSD-2-Clause
- * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2017
+ * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2018
  * @see       {@link https://github.com/dabamos/openadms-ui/}
  */
 
@@ -16,6 +16,7 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import Logger from 'js-logger';
+import PouchDB from 'pouchdb';
 import path from 'path';
 import 'semantic-ui';
 
@@ -23,12 +24,18 @@ import models from './model.js';
 import views from './view.js';
 import router from './router.js';
 
+/* OpenADMS UI version. */
+let version = 0.1;
+
 /* Collections to store App models. */
 let core = new models.AppsList();
 let apps = new models.AppsList();
 
 /* Path to the App directories. */
 let rootAppPath = 'src/';
+
+/* PouchDB database. */
+let database = new PouchDB('ui');
 
 /* Why is this shit even necessary? */
 export {
@@ -54,6 +61,8 @@ let logger = Logger.get('root');
         },
         loadApps: loadApps
     };
+    global.database = database;
+    global.version = version;
 })(window);
 
 /**
@@ -66,6 +75,25 @@ function hideLoader() {
 }
 
 /**
+ * Initialises the PouchDB database.
+ */
+function initDatabase() {
+    let doc = {
+        '_id': 'ui',
+        'projects': {},
+        'active': null
+    };
+
+    database.put(doc).then(function () {
+        database.get('ui').then(function (doc) {
+            logger.debug(`Initialised database`);
+        }).catch(function (err) {
+            logger.error(err);
+        });
+    });
+}
+
+/**
  * Creates and renders page and App menu views.
  */
 function initView() {
@@ -75,7 +103,7 @@ function initView() {
 }
 
 /**
- * Creates and starts the Backbone.js router.
+ * Creates and starts the Backbone router.
  */
 function initRouter() {
     router.router = new router.Router(views.page);
@@ -89,11 +117,14 @@ function initRouter() {
  * @return {function}                       - Function to run deferred.
  */
 function loadApps(rootPath, collection) {
+    let appsFile = path.join(rootPath, 'apps.json');
+    logger.debug(`Loading apps file ${appsFile}`);
+
     return $.ajax({
-        url: path.join(rootPath, 'apps.json'),
+        url: appsFile,
         dataType: 'json'
-    }).then(function(kwargs) {
-        let autoLoad = kwargs.autoload;
+    }).then(function(json) {
+        let autoLoad = json.autoload;
 
         return $.when.apply($, autoLoad.map(function(appName) {
             let appPath = path.join(rootPath, appName);
@@ -105,7 +136,7 @@ function loadApps(rootPath, collection) {
                 }),
                 $.ajax({
                     url: path.join(appPath, 'app.js'),
-                    dataType: 'script'
+                    dataType: 'text' // Do not use 'script' here!
                 }),
                 $.ajax({
                     url: path.join(appPath, 'template.html'),
@@ -114,9 +145,9 @@ function loadApps(rootPath, collection) {
             ).then(function(meta, script, template) {
                 let data = _.first(meta);
 
-                data['id'] = data.name;
-                data['script'] = new Function(_.first(script));
-                data['compiled'] = _.template(_.first(template));
+                data.id = data.name;
+                data.script = new Function('args', _.first(script));
+                data.compiled = _.template(_.first(template));
 
                 collection.add(data);
                 logger.debug(`Loaded app "${data.name}"`);
@@ -129,9 +160,10 @@ $(document).ready(function() {
     let corePath = path.join(rootAppPath, 'core');
     let appsPath = path.join(rootAppPath, 'apps');
 
-    /* Using Promises to pre-load everything. */
+    /* Use Promises to pre-load everything. */
     $.when(loadApps(corePath, core), loadApps(appsPath, apps))
         .then(initView)
         .then(initRouter)
+        .then(initDatabase)
         .done(hideLoader);
 });

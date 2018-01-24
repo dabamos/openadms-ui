@@ -3,11 +3,11 @@
  *            configuration files for OpenADMS Node.
  * @author    Philipp Engel
  * @license   BSD-2-Clause
- * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2017
+ * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2018
  * @see       {@link https://github.com/dabamos/openadms-ui/}
  */
 
-// Semantic UI.
+/* Semantic UI */
 $('.ui.dropdown').dropdown({
     on: 'click'
 });
@@ -16,10 +16,12 @@ $('.ui.buttons .dropdown.button').dropdown({
 });
 $('.menu .item').tab();
 
-let models = {};
-let views = {};
+/* Backbone.js */
+let confed = {};
+confed.views = {};
 
-let apps = new UI.models.AppsList();
+/* Second-degree apps. */
+confed.apps = new UI.models.AppsList();
 
 let data = {
     id: 'test',
@@ -30,18 +32,19 @@ let data = {
     script: new Function('return;')
 };
 
-apps.add(data);
+confed.apps.add(data);
 
 /**
  * AppItem view.
  */
-views.AppItem = Backbone.View.extend({
+confed.views.AppItem = Backbone.View.extend({
     tagName: 'li',
     initialize: function(options) {
         _.bindAll(this, 'render');
         this.model.bind('change', this.render);
     },
     render: function() {
+        // Quick and dirty ...
         $(this.el).empty();
         $(this.el).append('<a href="#"><i class="' + this.model.get('icon') + ' icon"></i>' + this.model.get('title') + '</a>');
         return this;
@@ -51,7 +54,7 @@ views.AppItem = Backbone.View.extend({
 /**
  * AppItemsList view.
  */
-views.AppItemsList = Backbone.View.extend({
+confed.views.AppItemsList = Backbone.View.extend({
     collection: null,
     el: '#app-list',
     initialize: function(collection) {
@@ -65,7 +68,7 @@ views.AppItemsList = Backbone.View.extend({
         let element = $(this.el);
         element.empty();
         this.collection.forEach(function(item) {
-            let appItem = new views.AppItem({
+            let appItem = new confed.views.AppItem({
                 model: item
             });
 
@@ -78,10 +81,10 @@ views.AppItemsList = Backbone.View.extend({
 /**
  * Module view for second-degree App contents.
  */
-views.Module = Backbone.View.extend({
+confed.views.Module = Backbone.View.extend({
     el: '#app-view',
     render: function(name, args) {
-        let model = apps.get(name);
+        let model = confed.apps.get(name);
 
         if (model != null) {
             let compiled = model.get('compiled');
@@ -92,8 +95,9 @@ views.Module = Backbone.View.extend({
     }
 });
 
-appItemsList = new views.AppItemsList(apps);
-appItemsList.render();
+/* Instantiate the views. */
+confed.views.appItemsList = new confed.views.AppItemsList(confed.apps);
+confed.views.appItemsList.render();
 
-module = new views.Module();
-module.render('test');
+confed.views.module = new confed.views.Module();
+confed.views.module.render('test');

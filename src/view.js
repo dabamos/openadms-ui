@@ -13,7 +13,6 @@ import _ from 'underscore';
 import 'backbone';
 import Logger from 'js-logger';
 
-/* Importing one by one doesn't work. This is so fucking stupid. */
 import { core, apps } from './openadms-ui.js';
 
 let views = {};
@@ -62,7 +61,7 @@ views.Page = Backbone.View.extend({
             };
 
             this.$el.html(compiled(vars));
-            run();
+            run(args);
         } else {
             logger.debug(`App "${name}" not found`);
             this.renderError(name);
@@ -84,7 +83,7 @@ views.Page = Backbone.View.extend({
             };
 
             this.$el.html(compiled(vars));
-            run();
+            run(args);
         } else {
             logger.debug(`Core App "${name}" not found`);
             this.renderError(name);
@@ -133,11 +132,8 @@ views.AppMenu = Backbone.View.extend({
     },
     render: function() {
         let element = $(this.el);
-
-        // Clear potential old entries first.
         element.empty();
 
-        // Go through the collection items.
         this.collection.forEach(function(item) {
             // Instantiate an AppItem view for each App.
             let appItem = new views.AppItem({
