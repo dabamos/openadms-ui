@@ -12,16 +12,16 @@ about.views = {};
 /**
  * View displays the OpenADMS UI version number inside a table cell.
  */
-about.views.Version = Backbone.View.extend({
+about.views.VersionView = Backbone.View.extend({
     el: '#version',
     render: function() {
         // Output OpenADMS UI version.
         $(this.el).empty();
-        $(this.el).append(window.version);
+        $(this.el).append(version.toFixed(1));
         return this;
     }
 });
 
 /* Instantiate and render the view. */
-about.views.version = new about.views.Version();
-about.views.version.render();
+about.views.versionView = new about.views.VersionView();
+about.views.versionView.render();
