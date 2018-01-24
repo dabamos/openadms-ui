@@ -31,8 +31,8 @@ If you change any Semantic UI styles, re-package the CSS files with Gulp:
 $ cd semantic/
 $ ../node_modules/gulp/bin/gulp.js build-css
 ```
-The output files ``semantic.css`` and ``semantic.min.css`` will be stored
-in ``assets/css/``.
+The compiled CSS files ``semantic.css`` and ``semantic.min.css`` will be
+stored in ``assets/css/``.
 
 ## JSDoc
 Run JSDoc to generate the source code documentation:
