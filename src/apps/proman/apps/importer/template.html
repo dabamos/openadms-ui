@@ -1,0 +1,20 @@
+<h4 class="ui header">Import Sensor Node Configuration from File (JSON)</h4>
+<form class="ui form" id="jsonImport">
+    <div class="eight wide field">
+        <div class="ui action input">
+            <input type="text" name="fileName" placeholder="Upload JSON File" readonly>
+            <input type="file" id="selectFile" style="display: none;">
+            <button class="ui button">
+                <i class="upload icon"></i>
+                Import
+            </button>
+        </div>
+    </div>
+    <div class="field">
+        <div class="ui error message"></div>
+    </div>
+    <div class="field">
+        <label>File Preview</label>
+        <textarea id="preview" style="font-family: monospace; height: 20em;" readonly></textarea>
+    </div>
+</form>
