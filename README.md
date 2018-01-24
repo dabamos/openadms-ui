@@ -4,7 +4,7 @@
 [OpenADMS Node](https://github.com/dabamos/openadms-node/) and
 [OpenADMS Server](https://github.com/dabamos/openadms-server/)
 instances. It is written in ECMAScript 2015 and relies on jQuery, Backbone.js,
-and Semantic UI.
+Semantic UI, and PouchDB.
 
 ## Run
 Clone the repository with Git and serve the contents with a web server.
@@ -16,7 +16,7 @@ $ python3 -m http.server 8080
 Open your web browser and access ``http://localhost:8080/``.
 
 ## Build
-[Node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/) are
+[Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) are
 required to build OpenADMS UI. Clone the repository with Git and run:
 ```
 $ npm install
