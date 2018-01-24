@@ -1,5 +1,5 @@
 {
   "name": "importer",
-  "title": "Import Sensor Node Configuration",
-  "icon": "options"
+  "title": "Import Sensor Node",
+  "icon": "upload"
 }

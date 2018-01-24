@@ -10,27 +10,31 @@
 Logger.useDefaults();
 let logger = Logger.get('proman');
 
-/* Data models for projects and sensor nodes. */
+/* Views and models of the Project Manager. */
 let proman = {};
 proman.views = {};
 proman.models = {};
 
-if (args)
-    console.log(args);
+/* Nested Apps will be stored in here. */
+proman.models.appsList = new UI.models.AppsList();
 
-/* Module view for second-degree App contents. */
+/* View container for nested Apps. */
 proman.views.AppView = Backbone.View.extend({
-    el: '#appview',
-    render: function(name) {
+    el: '#app-view',
+    render: function (name) {
         let app = proman.models.appsList.get(name);
 
         if (app != null) {
-            /* Display the compiled template. */
-            let compiled = app.get('compiled');
-            this.$el.html(compiled());
-
-            /* Run the script. */
+            logger.debug(`Rendering app "${name}"`);
             let run = app.get('script');
+            let compiled = app.get('compiled');
+            let vars = {
+                'name': app.get('name'),
+                'title': app.get('title'),
+                'icon': app.get('icon'),
+            };
+
+            this.$el.html(compiled(vars));
             run();
         }
 
@@ -38,16 +42,15 @@ proman.views.AppView = Backbone.View.extend({
     }
 });
 
-/* Second-degree Apps will be stored in here. */
-proman.models.appsList = new UI.models.AppsList();
-
-/* Use Promises to load all second-degree Apps. */
+/* Use Promises to load all nested Apps. */
 $.when(UI.loadApps('/src/apps/proman/apps/', proman.models.appsList))
     .then(function () {
-        // Function does the trick.
         proman.views.appView = new proman.views.AppView();
-        proman.views.appView.render('importer');
+
+        /* Render app on call, e. g., '#app/proman/args'. */
+        if (proman.models.appsList.get(args))
+            proman.views.appView.render(args);
     })
     .done(function () {
-        $('#appview').removeClass('loading');
+        $('#app-view').removeClass('loading');
     });

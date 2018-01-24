@@ -1,20 +1,24 @@
-<h4 class="ui header">Import Sensor Node Configuration from File (JSON)</h4>
+<h4 class="ui dividing header"><%- title %></h4>
+<p>Please select a valid OpenADMS UI configuration file (JSON) of the sensor node you wish to import.</p>
 <form class="ui form" id="jsonImport">
-    <div class="eight wide field">
-        <div class="ui action input">
-            <input type="text" name="fileName" placeholder="Upload JSON File" readonly>
-            <input type="file" id="selectFile" style="display: none;">
-            <button class="ui button">
-                <i class="upload icon"></i>
-                Import
-            </button>
+    <div class="two fields">
+        <div class="field">
+            <label>File (JSON)</label>
+            <div class="ui action input">
+                <input type="text" name="fileName" placeholder="Upload JSON File" readonly>
+                <input type="file" id="selectFile" style="display: none;">
+                <button class="ui primary button"><i class="upload icon"></i> Import</button>
+            </div>
         </div>
     </div>
     <div class="field">
         <div class="ui error message"></div>
     </div>
     <div class="field">
-        <label>File Preview</label>
-        <textarea id="preview" style="font-family: monospace; height: 20em;" readonly></textarea>
+        <label>Preview</label>
+        <textarea id="preview" style="font-family: monospace; height: 15em;" readonly></textarea>
+    </div>
+    <div class="field">
+        <a href="#app/proman" class="ui button">Cancel</a>
     </div>
 </form>

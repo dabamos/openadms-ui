@@ -25,7 +25,7 @@ import views from './view.js';
 import router from './router.js';
 
 /* OpenADMS UI version. */
-let version = 0.1;
+let version = 1.0;
 
 /* Collections to store App models. */
 let core = new models.AppsList();
