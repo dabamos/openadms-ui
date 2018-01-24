@@ -29,7 +29,7 @@ function handleFileSelect(event) {
 }
 
 /* Add event listener for JSON file upload. */
-let selectFile = document.getElementById('selectFile');
+let selectFile = document.getElementById('select-file');
 
 if (selectFile)
     selectFile.addEventListener('change', handleFileSelect, false);
@@ -49,11 +49,11 @@ $('.ui form').form({
     on: 'blur',
     fields: {
         fileName: {
-            identifier: 'fileName',
+            identifier: 'file-name',
             rules: [
                 {
                     type: 'empty',
-                    prompt: 'Please select a JSON file'
+                    prompt: 'Please select a valid JSON file'
                 }
             ]
         }
@@ -61,6 +61,6 @@ $('.ui form').form({
 });
 
 /* Prevent form submission. */
-$('#jsonImport').submit(function (event) {
+$('#json-import').submit(function (event) {
     event.preventDefault();
 });
