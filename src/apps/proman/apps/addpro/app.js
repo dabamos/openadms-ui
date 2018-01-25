@@ -20,8 +20,43 @@ function uuid4() {
 /* Semantic UI. */
 $('.button').popup();
 
-$('#unid').val(uuid4());
+$('#project-id').val(uuid4());
 
-$('#new-unid').click(function () {
-    $('#unid').val(uuid4);
+$('#new-id').click(function () {
+    $('#project-id').val(uuid4);
+});
+
+/* Validate file selection. */
+$('.ui form').form({
+    on: 'blur',
+    fields: {
+        projectId: {
+            identifier: 'project-id',
+            rules: [
+                {
+                    type: 'empty',
+                    prompt: 'Please enter a project ID (for example, UUID4 as 32-character hexadecimal string)'
+                },
+                {
+                    type: 'regExp',
+                    value: /^\w+$/i,
+                    prompt: 'Only characters (a-zA-Z0-9_) allowed in project ID'
+                }
+            ]
+        },
+        projectName: {
+            identifier: 'project-name',
+            rules: [
+                {
+                    type: 'empty',
+                    prompt: 'Please enter a project name'
+                },
+                {
+                    type: 'regExp',
+                    value: /^\w+$/i,
+                    prompt: 'Only characters (a-zA-Z0-9_) allowed in project name'
+                }
+            ]
+        }
+    }
 });

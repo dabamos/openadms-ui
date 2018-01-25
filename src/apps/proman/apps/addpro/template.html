@@ -8,13 +8,16 @@
     <div class="required field">
         <label>Project ID</label>
         <div class="ui action input">
-            <input id="unid" placeholder="Random Project ID" type="text">
-            <button class="ui icon button" data-content="Generate new ID" id="new-unid"><i class="refresh icon"></i></button>
+            <input id="project-id" placeholder="Random Project ID" type="text">
+            <a class="ui icon button" data-content="Generate new ID" id="new-id"><i class="refresh icon"></i></a>
         </div>
     </div>
     <div class="field">
         <label>Description</label>
-        <input name="project-id" placeholder="Optional Short Description Text" type="text">
+        <input name="project-description" placeholder="Optional Short Description Text" type="text">
+    </div>
+    <div class="field">
+        <div class="ui error message"></div>
     </div>
     <button class="ui primary button" type="submit">Create</button>
     <a href="#app/proman" class="ui button">Cancel</a>
