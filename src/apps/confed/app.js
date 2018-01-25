@@ -86,7 +86,7 @@ confed.views.Module = Backbone.View.extend({
     render: function(name, args) {
         let model = confed.apps.get(name);
 
-        if (model != null) {
+        if (model !== null) {
             let compiled = model.get('compiled');
             this.$el.html(compiled());
         }

@@ -1,5 +1,6 @@
 {
   "name": "error",
   "title": "Error 404",
-  "icon": "file"
+  "icon": "file",
+  "menu": false
 }

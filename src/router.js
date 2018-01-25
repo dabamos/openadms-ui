@@ -25,20 +25,14 @@ router.Router = Backbone.Router.extend({
         this.view = view;
     },
     routes: {
-        '': 'showCore',
+        '': 'showApp',
         'app/:name(/*args)': 'showApp',
-        'core/:name(/*args)': 'showCore'
     },
     showApp: function(name, args) {
-        /* Render additional apps. */
-        if (name !== null)
-            this.view.renderApp(name, args);
-    },
-    showCore: function(name, args) {
-        /* Render core apps. */
+        /* Render single App. */
         if (name === null)
             name = 'index';
 
-        this.view.renderCore(name, args);
+        this.view.renderApp(name, args);
     }
 });

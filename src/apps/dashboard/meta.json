@@ -1,5 +1,6 @@
 {
   "name": "dashboard",
   "title": "Dashboard",
-  "icon": "dashboard"
+  "icon": "dashboard",
+  "menu": false
 }

@@ -15,7 +15,7 @@ let proman = {};
 proman.views = {};
 proman.models = {};
 
-/* Nested Apps will be stored in here. */
+/* Nested Apps will be displayed in div #app-view. */
 proman.models.appsList = new UI.models.AppsList();
 
 /* View container for nested Apps. */
@@ -24,7 +24,7 @@ proman.views.AppView = Backbone.View.extend({
     render: function (name) {
         let app = proman.models.appsList.get(name);
 
-        if (app != null) {
+        if (app !== null) {
             logger.debug(`Rendering app "${name}"`);
             let run = app.get('script');
             let compiled = app.get('compiled');

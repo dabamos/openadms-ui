@@ -13,7 +13,7 @@ import _ from 'underscore';
 import 'backbone';
 import Logger from 'js-logger';
 
-import { core, apps } from './openadms-ui.js';
+import apps from './openadms-ui.js';
 
 let views = {};
 
@@ -35,7 +35,7 @@ views.Page = Backbone.View.extend({
         // this.renderCore('index', null);
     },
     renderError: function(name) {
-        let model = core.get('error');
+        let model = apps.get('error');
         let compiled = model.get('compiled');
         let meta = {
             'name': name,
@@ -50,7 +50,7 @@ views.Page = Backbone.View.extend({
     renderApp: function(name, args) {
         let model = apps.get(name);
 
-        if (model != null) {
+        if (model !== null) {
             logger.debug(`Rendering app "${name}"`);
             let run = model.get('script');
             let compiled = model.get('compiled');
@@ -64,28 +64,6 @@ views.Page = Backbone.View.extend({
             run(args);
         } else {
             logger.debug(`App "${name}" not found`);
-            this.renderError(name);
-        }
-
-        return this;
-    },
-    renderCore: function(name, args) {
-        let model = core.get(name);
-
-        if (model != null) {
-            logger.debug(`Rendering core app "${name}"`);
-            let run = model.get('script');
-            let compiled = model.get('compiled');
-            let vars = {
-                'name': model.get('name'),
-                'title': model.get('title'),
-                'icon': model.get('icon')
-            };
-
-            this.$el.html(compiled(vars));
-            run(args);
-        } else {
-            logger.debug(`Core App "${name}" not found`);
             this.renderError(name);
         }
 

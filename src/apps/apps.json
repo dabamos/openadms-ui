@@ -1,6 +1,11 @@
 {
   "autoload": [
+    "about",
     "confed",
+    "dashboard",
+    "error",
+    "index",
+    "licence",
     "proman"
   ]
 }

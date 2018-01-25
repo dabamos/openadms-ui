@@ -10,6 +10,7 @@
 
 /* I really hate JavaScript. Front-end programming is for monkeys. See:
    https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f */
+
 'use strict';
 
 /* Obscure imports. */
@@ -27,20 +28,18 @@ import router from './router.js';
 /* OpenADMS UI version. */
 let version = 1.0;
 
-/* Collections to store App models. */
-let core = new models.AppsList();
-let apps = new models.AppsList();
-
 /* Path to the App directories. */
-let rootAppPath = 'src/';
+let appsPath = 'src/apps/';
+
+/* Collection to store App models. */
+let apps = new models.AppsList();
 
 /* PouchDB database. */
 let database = new PouchDB('ui');
 
 /* Why is this shit even necessary? */
 export {
-    core as default,
-    core as core,
+    apps as default,
     apps as apps
 };
 
@@ -98,7 +97,9 @@ function initDatabase() {
  */
 function initView() {
     views.page = new views.Page();
-    views.appMenu = new views.AppMenu(apps);
+
+    /* Only pass those apps which should be displayed in the menu. */
+    views.appMenu = new views.AppMenu(new models.AppsList(apps.where({menu: true})));
     views.appMenu.render();
 }
 
@@ -157,11 +158,8 @@ function loadApps(rootPath, collection) {
 }
 
 $(document).ready(function() {
-    let corePath = path.join(rootAppPath, 'core');
-    let appsPath = path.join(rootAppPath, 'apps');
-
     /* Use Promises to pre-load everything. */
-    $.when(loadApps(corePath, core), loadApps(appsPath, apps))
+    $.when(loadApps(appsPath, apps))
         .then(initView)
         .then(initRouter)
         .then(initDatabase)

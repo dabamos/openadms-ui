@@ -1,5 +1,6 @@
 {
   "name": "about",
   "title": "About",
-  "icon": "info circle"
+  "icon": "info circle",
+  "menu": false
 }

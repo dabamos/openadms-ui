@@ -1,5 +1,6 @@
 {
   "name": "confed",
   "title": "Configuration Editor",
-  "icon": "options"
+  "icon": "options",
+  "menu": true
 }

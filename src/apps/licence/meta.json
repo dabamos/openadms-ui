@@ -1,5 +1,6 @@
 {
   "name": "licence",
   "title": "Licence",
-  "icon": "law"
+  "icon": "law",
+  "menu": false
 }
