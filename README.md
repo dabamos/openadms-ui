@@ -7,9 +7,9 @@ instances. It is written in ECMAScript 2015 and relies on jQuery, Backbone.js,
 Semantic UI, and PouchDB.
 
 ## Run
-Clone the repository with Git and serve the contents with a web server.
-For testing, you can start the HTTP server module of Python 3 inside the
-OpenADMS UI directory (or execute ``run.sh``):
+Launch OpenADMS UI by simply serving the directory contents with a web server
+(nginx, Hiawatha, httpd, ...). For testing, you can start the HTTP server
+module of Python 3 inside the OpenADMS UI directory (or execute ``run.sh``):
 ```
 $ python3 -m http.server 8080
 ```
@@ -33,6 +33,38 @@ $ ../node_modules/gulp/bin/gulp.js build-css
 ```
 The compiled CSS files ``semantic.css`` and ``semantic.min.css`` will be
 stored in ``assets/css/``.
+
+## Writing Apps
+OpenADMS UI can be extended by writing additional Apps. Add an App directory to
+``apps/`` and place the following files inside it:
+
+* ``meta.json`` (App information),
+* ``template.html`` (Underscore.js template),
+* ``app.js`` (optional script).
+
+The JSON file ``meta.json`` stores all information regarding the App:
+```
+{
+  "name": "myapp",
+  "title": "My App",
+  "icon": "puzzle",
+  "menu": true
+}
+```
+The name must equal the name of the App directory. The title will be displayed in
+the App menu and optionally in the Underscore.js template. The icon can be
+changed to a valid [Semantic UI icon](https://semantic-ui.com/elements/icon.html)
+name. If ``menu`` is set to ``true``, the App will be listed in the App menu.
+
+The file ``template.html`` contains the HTML elements and optional Underscore.js
+placeholders for meta values.
+
+The script ``app.js`` will be run as a JavaScript function each time the App is
+loaded. A variable ``args`` is given as an argument to the function and
+provides the extended routing path (e. g., ``#apps/myapp/args``).
+
+Enable the App by adding the App name to ``autoload`` in ``apps/apps.json``.
+Open ``http://localhost:8080/#apps/myapp/`` to display the App.
 
 ## JSDoc
 Run JSDoc to generate the source code documentation:
