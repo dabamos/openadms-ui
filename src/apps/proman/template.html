@@ -2,7 +2,7 @@
     <i class="<%- icon %> icon"></i>
     <div class="content">
         <%- title %>
-        <div class="sub header">Manage your OpenADMS Node projects</div>
+        <div class="sub header">Manage your OpenADMS projects</div>
     </div>
 </h3>
 <div class="ui loading padded segment" id="app-view">
@@ -19,10 +19,7 @@
         <tfoot class="full-width">
             <tr>
                 <th colspan="3">
-                    <div class="ui horizontal list">
-                        <a class="item" id="activate" role="button"><i class="checkmark icon"></i>Activate</a>
-                        <a class="item" id="edit" role="button"><i class="write icon"></i>Edit</a>
-                        <a class="item" id="delete" role="button"><i class="remove icon"></i>Delete</a>
+                    <div id="project-action" class="ui horizontal list">
                     </div>
                     <a href="#app/proman/addpro" class="ui right floated small labeled icon button"><i class="add icon"></i> Add Project</a>
                 </th>
@@ -30,4 +27,17 @@
         </tfoot>
     </table>
     <a href="#app/proman/importer" class="ui small button">Import Sensor Node</a>
+</div>
+
+<div class="ui basic modal">
+    <div class="ui mini modal">
+        <div class="header">Delete Project</div>
+        <div class="content">
+            <p>Do you really want to delete the project?</p>
+        </div>
+        <div class="actions">
+            <div class="ui red approve labeled icon button"><i class="remove icon"></i> Delete</div>
+            <div class="ui cancel button">Cancel</div>
+        </div>
+    </div>
 </div>

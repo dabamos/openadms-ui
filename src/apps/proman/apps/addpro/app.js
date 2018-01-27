@@ -33,7 +33,6 @@ $('#new-id').click(function () {
     $('input[name=project-id]').val(uuid4);
 });
 
-
 /* Validate project details. */
 let $form = $('.ui form');
 
@@ -73,6 +72,13 @@ $form.form({
 
 /* Add project to database. */
 $form.submit(function (event) {
+    if(!$('.ui.form').form('is valid'))
+        return;
+
+    // Disable create and cancel buttons.
+    $('.ui.button').addClass('disabled');
+
+    // Read input values.
     let $inputs = $form.find(':input');
     let values = {};
 
@@ -80,7 +86,8 @@ $form.submit(function (event) {
         values[this.name] = $(this).val();
     });
 
-    let project = {
+    // Create project document.
+    let doc = {
         _id: values['project-id'],
         name: values['project-name'],
         id: values['project-id'],
@@ -88,14 +95,20 @@ $form.submit(function (event) {
         nodes: {}
     };
 
-    db.get('ui').then(function (doc) {
-        doc.projects[project.id] = project;
-        return db.put(doc);
-    }).then(function (response) {
-        if (response.ok)
-            logger.debug(`Added project "${project.name}" to database`);
+    // Add project to database.
+    db.put(doc).then(function (response) {
+        if (response.ok) {
+            // Show success message.
+            $('.ui.success.message').html(`Added project “${doc.name}” to database`).toggle();
+
+            // Get back to the project manager default page.
+            setTimeout(function () {
+                window.location = '#app/proman';
+            }, 1000);
+        }
     }).catch(function (err) {
-        console.log(err);
+        // Show error message.
+        $('.ui.error.message').html(err);
     });
 
     event.preventDefault();

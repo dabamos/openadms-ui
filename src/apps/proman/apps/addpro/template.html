@@ -1,5 +1,5 @@
 <h4 class="ui dividing header"><%- title %></h4>
-<p>Create a new sensor network for OpenADMS Node.</p>
+<p>Create a new OpenADMS sensor network project.</p>
 <form class="ui form">
     <div class="required field">
         <label>Project Name</label>
@@ -13,11 +13,14 @@
         </div>
     </div>
     <div class="field">
-        <label>Description</label>
+        <label>Project Description</label>
         <input name="project-description" placeholder="Optional Short Description Text" type="text">
     </div>
     <div class="field">
         <div class="ui error message"></div>
+    </div>
+    <div class="field">
+        <div class="ui success message"></div>
     </div>
     <button class="ui primary button" type="submit">Create</button>
     <a href="#app/proman" class="ui button">Cancel</a>
