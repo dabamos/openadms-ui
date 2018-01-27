@@ -25,10 +25,16 @@ import models from './model.js';
 import views from './view.js';
 import router from './router.js';
 
+/* Why is this shit even necessary? */
+export {
+    apps as default,
+    apps as apps
+};
+
 /* OpenADMS UI version. */
 let version = 1.0;
 
-/* Path to the App directories. */
+/* Path to the Apps. */
 let appsPath = 'src/apps/';
 
 /* Collection to store App models. */
@@ -36,12 +42,6 @@ let apps = new models.AppsList();
 
 /* PouchDB database. */
 let database = new PouchDB('ui');
-
-/* Why is this shit even necessary? */
-export {
-    apps as default,
-    apps as apps
-};
 
 /* Initialise the logger. */
 Logger.useDefaults();
@@ -53,15 +53,15 @@ let logger = Logger.get('root');
     global._ = _;
     global.Backbone = Backbone;
     global.Logger = Logger;
+    global.PouchDB = PouchDB;
     global.UI = {
+        loadApps: loadApps,
         models: {
             App: models.App,
             AppsList: models.AppsList
         },
-        loadApps: loadApps
+        version: version
     };
-    global.database = database;
-    global.version = version;
 })(window);
 
 /**
@@ -74,22 +74,21 @@ function hideLoader() {
 }
 
 /**
- * Initialises the PouchDB database.
+ * Initialises the PouchDB database 'ui'.
  */
 function initDatabase() {
     let doc = {
         '_id': 'ui',
-        'projects': {},
         'active': null
     };
-
-    database.put(doc).then(function () {
-        database.get('ui').then(function (doc) {
-            logger.debug(`Initialised database`);
-        }).catch(function (err) {
-            logger.error(err);
-        });
+/*
+    database.put(doc).then(function (response) {
+        if (response.ok)
+            logger.debug(`Initialised database "ui"`);
+    }).catch(function (err) {
+        logger.error(err);
     });
+    */
 }
 
 /**

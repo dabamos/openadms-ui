@@ -17,7 +17,7 @@ about.views.VersionView = Backbone.View.extend({
     render: function() {
         // Output OpenADMS UI version.
         $(this.el).empty();
-        $(this.el).append(version.toFixed(1));
+        $(this.el).append(UI.version.toFixed(1));
         return this;
     }
 });

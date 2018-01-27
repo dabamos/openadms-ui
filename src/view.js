@@ -35,12 +35,12 @@ views.Page = Backbone.View.extend({
         // this.renderCore('index', null);
     },
     renderError: function(name) {
-        let model = apps.get('error');
-        let compiled = model.get('compiled');
+        let app = apps.get('error');
+        let compiled = app.get('compiled');
         let meta = {
             'name': name,
-            'title': model.get('title'),
-            'icon': model.get('icon')
+            'title': app.get('title'),
+            'icon': app.get('icon')
         };
 
         this.$el.html(compiled(meta));
@@ -48,16 +48,16 @@ views.Page = Backbone.View.extend({
         return this;
     },
     renderApp: function(name, args) {
-        let model = apps.get(name);
+        let app = apps.get(name);
 
-        if (model !== null) {
+        if (app != null) {
             logger.debug(`Rendering app "${name}"`);
-            let run = model.get('script');
-            let compiled = model.get('compiled');
+            let run = app.get('script');
+            let compiled = app.get('compiled');
             let vars = {
-                'name': model.get('name'),
-                'title': model.get('title'),
-                'icon': model.get('icon'),
+                'name': app.get('name'),
+                'title': app.get('title'),
+                'icon': app.get('icon'),
             };
 
             this.$el.html(compiled(vars));

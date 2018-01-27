@@ -6,12 +6,19 @@
  * @see       {@link https://github.com/dabamos/openadms-ui/}
  */
 
+/* Initialise the logger. */
+Logger.useDefaults();
+let logger = Logger.get('addpro');
+
+/* Open PouchDB database. */
+let db = new PouchDB('projects');
+
 /**
  * Returns pseudo-random UUID4 as 32-character hexadecimal string.
  * @returns {string} - The UUID4 string.
  */
 function uuid4() {
-    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
@@ -20,14 +27,17 @@ function uuid4() {
 /* Semantic UI. */
 $('.button').popup();
 
-$('#project-id').val(uuid4());
+$('input[name=project-id]').val(uuid4());
 
 $('#new-id').click(function () {
-    $('#project-id').val(uuid4);
+    $('input[name=project-id]').val(uuid4);
 });
 
-/* Validate file selection. */
-$('.ui form').form({
+
+/* Validate project details. */
+let $form = $('.ui form');
+
+$form.form({
     on: 'blur',
     fields: {
         projectId: {
@@ -59,4 +69,34 @@ $('.ui form').form({
             ]
         }
     }
+});
+
+/* Add project to database. */
+$form.submit(function (event) {
+    let $inputs = $form.find(':input');
+    let values = {};
+
+    $inputs.each(function () {
+        values[this.name] = $(this).val();
+    });
+
+    let project = {
+        _id: values['project-id'],
+        name: values['project-name'],
+        id: values['project-id'],
+        description: values['project-description'],
+        nodes: {}
+    };
+
+    db.get('ui').then(function (doc) {
+        doc.projects[project.id] = project;
+        return db.put(doc);
+    }).then(function (response) {
+        if (response.ok)
+            logger.debug(`Added project "${project.name}" to database`);
+    }).catch(function (err) {
+        console.log(err);
+    });
+
+    event.preventDefault();
 });
