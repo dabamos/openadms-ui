@@ -8,8 +8,8 @@ Underscore.js, Semantic UI, and PouchDB.
 
 ## Run
 Launch OpenADMS UI by simply serving the directory contents with a web server
-(nginx, Hiawatha, httpd, …). For testing, you can start the HTTP server
-module of Python 3 inside the OpenADMS UI directory (or execute ``run.sh``):
+(nginx, Hiawatha, httpd, …). For testing, you can start the Python HTTP server
+module inside the OpenADMS UI directory (or execute ``run.sh``):
 ```
 $ python3 -m http.server 8080
 ```
@@ -36,7 +36,7 @@ stored in ``assets/css/``.
 
 ## Writing Apps
 OpenADMS UI can be extended by writing additional Apps. Add an App directory to
-``apps/`` and place the following files inside it:
+``src/apps/`` and place the following files inside it:
 
 * ``meta.json`` (App information),
 * ``template.html`` (Underscore.js template),
@@ -51,19 +51,20 @@ The JSON file ``meta.json`` stores all information regarding the App:
   "menu": true
 }
 ```
-The name must equal the name of the App directory. The title will be displayed in
-the App menu and optionally in the Underscore.js template. The icon can be
-changed to a valid [Semantic UI icon](https://semantic-ui.com/elements/icon.html)
-name. If ``menu`` is set to ``true``, the App will be listed in the App menu.
+The name must equal the name of the App directory. The title will be displayed
+in the App menu and optionally in the Underscore.js template. The icon can be
+changed to a valid
+[Semantic UI icon](https://semantic-ui.com/elements/icon.html) name. If ``menu``
+is set to ``true``, the App will be listed in the App menu.
 
 The file ``template.html`` contains the HTML elements and optional Underscore.js
 placeholders for meta values.
 
 The script ``app.js`` will be run as a JavaScript function each time the App is
-loaded. A variable ``args`` is given as an argument to the function and
-provides the routing path beyond the App name (e. g., ``#apps/myapp/args``).
+loaded. A variable ``args`` is given as an argument to the function and provides
+the routing path beyond the App name (e. g., ``#apps/myapp/args``).
 
-Enable the App by adding the App name to ``autoload`` in ``apps/apps.json``.
+Enable the App by adding the App name to ``autoload`` in ``src/apps/apps.json``.
 Open ``http://localhost:8080/#apps/myapp/`` to display the App.
 
 ## JSDoc
