@@ -4,11 +4,11 @@
 [OpenADMS Node](https://github.com/dabamos/openadms-node/) and
 [OpenADMS Server](https://github.com/dabamos/openadms-server/)
 instances. It is written in ECMAScript 2015 and relies on jQuery, Backbone.js,
-Semantic UI, and PouchDB.
+Underscore.js, Semantic UI, and PouchDB.
 
 ## Run
 Launch OpenADMS UI by simply serving the directory contents with a web server
-(nginx, Hiawatha, httpd, ...). For testing, you can start the HTTP server
+(nginx, Hiawatha, httpd, …). For testing, you can start the HTTP server
 module of Python 3 inside the OpenADMS UI directory (or execute ``run.sh``):
 ```
 $ python3 -m http.server 8080
@@ -40,7 +40,7 @@ OpenADMS UI can be extended by writing additional Apps. Add an App directory to
 
 * ``meta.json`` (App information),
 * ``template.html`` (Underscore.js template),
-* ``app.js`` (optional script).
+* ``app.js`` (optional script, may be empty).
 
 The JSON file ``meta.json`` stores all information regarding the App:
 ```
@@ -61,7 +61,7 @@ placeholders for meta values.
 
 The script ``app.js`` will be run as a JavaScript function each time the App is
 loaded. A variable ``args`` is given as an argument to the function and
-provides the extended routing path (e. g., ``#apps/myapp/args``).
+provides the routing path beyond the App name (e. g., ``#apps/myapp/args``).
 
 Enable the App by adding the App name to ``autoload`` in ``apps/apps.json``.
 Open ``http://localhost:8080/#apps/myapp/`` to display the App.
