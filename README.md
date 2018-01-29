@@ -62,10 +62,10 @@ placeholders for meta values.
 
 The script ``app.js`` will be run as a JavaScript function each time the App is
 loaded. A variable ``args`` is given as an argument to the function and provides
-the routing path beyond the App name (e. g., ``#apps/myapp/args``).
+the routing path beyond the App name (e. g., ``#apps/myapp/<args>``).
 
 Enable the App by adding the App name to ``autoload`` in ``src/apps/apps.json``.
-Open ``http://localhost:8080/#apps/myapp/`` to display the App.
+Open ``http://localhost:8080/#apps/myapp`` to display the App.
 
 ## JSDoc
 Run JSDoc to generate the source code documentation:
