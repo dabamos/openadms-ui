@@ -11,17 +11,19 @@
 $('.ui.dropdown').dropdown({
     on: 'click'
 });
+
 $('.ui.buttons .dropdown.button').dropdown({
     action: 'combo'
 });
+
 $('.menu .item').tab();
 
 /* Backbone.js */
-let confed = {};
-confed.views = {};
+let ConfigurationEditor = {};
+ConfigurationEditor.Views = {};
 
 /* Second-degree apps. */
-confed.apps = new UI.models.AppsList();
+let apps = new UI.Models.AppsList();
 
 let data = {
     id: 'test',
@@ -32,14 +34,14 @@ let data = {
     script: new Function('return;')
 };
 
-confed.apps.add(data);
+apps.add(data);
 
 /**
  * AppItem view.
  */
-confed.views.AppItem = Backbone.View.extend({
+ConfigurationEditor.Views.AppItem = Backbone.View.extend({
     tagName: 'li',
-    initialize: function(options) {
+    initialize: function() {
         _.bindAll(this, 'render');
         this.model.bind('change', this.render);
     },
@@ -54,8 +56,7 @@ confed.views.AppItem = Backbone.View.extend({
 /**
  * AppItemsList view.
  */
-confed.views.AppItemsList = Backbone.View.extend({
-    collection: null,
+ConfigurationEditor.Views.AppItemsList = Backbone.View.extend({
     el: '#app-list',
     initialize: function(collection) {
         this.collection = collection;
@@ -68,7 +69,7 @@ confed.views.AppItemsList = Backbone.View.extend({
         let element = $(this.el);
         element.empty();
         this.collection.forEach(function(item) {
-            let appItem = new confed.views.AppItem({
+            let appItem = new ConfigurationEditor.Views.AppItem({
                 model: item
             });
 
@@ -81,10 +82,10 @@ confed.views.AppItemsList = Backbone.View.extend({
 /**
  * Module view for second-degree App contents.
  */
-confed.views.Module = Backbone.View.extend({
+ConfigurationEditor.Views.Module = Backbone.View.extend({
     el: '#app-view',
     render: function(name, args) {
-        let model = confed.apps.get(name);
+        let model = apps.get(name);
 
         if (model !== null) {
             let compiled = model.get('compiled');
@@ -95,9 +96,9 @@ confed.views.Module = Backbone.View.extend({
     }
 });
 
-/* Instantiate the views. */
-confed.views.appItemsList = new confed.views.AppItemsList(confed.apps);
-confed.views.appItemsList.render();
+/* Instantiate the Views. */
+let appItemsList = new ConfigurationEditor.Views.AppItemsList(apps);
+appItemsList.render();
 
-confed.views.module = new confed.views.Module();
-confed.views.module.render('test');
+let module = new ConfigurationEditor.Views.Module();
+module.render('test');

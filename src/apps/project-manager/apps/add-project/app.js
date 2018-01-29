@@ -103,7 +103,7 @@ $form.submit(function (event) {
 
             // Get back to the project manager default page.
             setTimeout(function () {
-                window.location = '#app/proman';
+                window.location = '#app/projectManager';
             }, 1000);
         }
     }).catch(function (err) {

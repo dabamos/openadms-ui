@@ -1,18 +1,18 @@
 /**
- * @file      About page.
+ * @file      The about page.
  * @author    Philipp Engel
  * @license   BSD-2-Clause
  * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2018
  * @see       {@link https://github.com/dabamos/openadms-ui/}
  */
 
-let about = {};
-about.views = {};
+let About = {};
+About.Views = {};
 
 /**
  * View displays the OpenADMS UI version number inside a table cell.
  */
-about.views.VersionView = Backbone.View.extend({
+About.Views.VersionView = Backbone.View.extend({
     el: '#version',
     render: function() {
         // Output OpenADMS UI version.
@@ -23,5 +23,5 @@ about.views.VersionView = Backbone.View.extend({
 });
 
 /* Instantiate and render the view. */
-about.views.versionView = new about.views.VersionView();
-about.views.versionView.render();
+let version  = new About.Views.VersionView();
+version.render();

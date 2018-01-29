@@ -10,7 +10,7 @@
 
 /* Initialise the logger. */
 Logger.useDefaults();
-let logger = Logger.get('proman');
+let logger = Logger.get('project-manager');
 
 /* Open PouchDB database for projects. */
 let db = new PouchDB('projects');
@@ -22,19 +22,19 @@ function setCheckedRadio(id) {
     checkedRadio = id;
 }
 
-/* Views and models of the Project Manager. */
-let proman = {};
-proman.models = {};
-proman.views = {};
-
 /* Apps of the Project Manager. */
-proman.models.appsList = new UI.models.AppsList();
+let appsList = new UI.Models.AppsList();
+
+/* Views and models of the Project Manager. */
+let ProjectManager = {};
+ProjectManager.Models = {};
+ProjectManager.Views = {};
 
 /* View container for nested Apps. */
-proman.views.App = Backbone.View.extend({
+ProjectManager.Views.App = Backbone.View.extend({
     el: '#app-view',
     render: function (name) {
-        let app = proman.models.appsList.get(name);
+        let app = appsList.get(name);
 
         if (app !== null) {
             logger.debug(`Rendering app "${name}"`);
@@ -47,34 +47,29 @@ proman.views.App = Backbone.View.extend({
                 'icon': app.get('icon'),
             };
 
-            // Display the compiled App template inside the div.
-            this.$el.html(compiled(vars));
-            // Run the App script.
-            run();
+            this.$el.html(compiled(vars));  // Display the compiled App template inside the div.
+            run();                          // Run the App script.
         }
 
         return this;
     }
 });
 
-/* Use Promises to load all nested Apps and store them in `proman.models.appsList`. */
-$.when(UI.loadApps('/src/apps/proman/apps/', proman.models.appsList))
+/* Use Promises to load all nested Apps and store them in `projectManager.Models.appsList`. */
+$.when(UI.loadApps('/src/apps/project-manager/apps/', appsList))
     .then(function () {
-        proman.views.App = new proman.views.App();
-
-        // Render App on call, e. g., '#app/proman/args'.
-        if (proman.models.appsList.get(args))
-            proman.views.App.render(args);
+        // Render App on call, e. g., '#app/projectManager/args'.
+        if (appsList.get(args))
+            new ProjectManager.Views.App().render(args);
     })
     .done(function () {
         $('#app-view').removeClass('loading');
     });
 
 /**
- * Project Table.
+ * Project table.
  */
-/* Project model. */
-proman.models.Project = Backbone.Model.extend({
+ProjectManager.Models.Project = Backbone.Model.extend({
     initialize: function () {
         this.bind('remove', this.onRemove, this);
     },
@@ -86,19 +81,17 @@ proman.models.Project = Backbone.Model.extend({
     },
 });
 
-/* Projects collection. */
-proman.models.Projects = Backbone.Collection.extend({
-    model: proman.models.Project
+ProjectManager.Models.Projects = Backbone.Collection.extend({
+    model: ProjectManager.Models.Project
 });
 
-/* Table row view of single project. */
-proman.views.ProjectItem = Backbone.View.extend({
+ProjectManager.Views.ProjectItem = Backbone.View.extend({
     tagName: 'tr',
     events: {
-		'click .ui.radio.checkbox': function() {
-		    // Set selected radio checkbox.
-		    setCheckedRadio(this.model.get('id'));
-		}
+        'click .ui.radio.checkbox': function() {
+            // Set selected radio checkbox.
+            setCheckedRadio(this.model.get('id'));
+        }
     },
     initialize: function () {
         _.bindAll(this, 'render');
@@ -106,17 +99,16 @@ proman.views.ProjectItem = Backbone.View.extend({
     },
     render: function () {
         $(this.el).empty();
-        $(this.el).append($('<td><div class="ui radio checkbox"><input id="' + this.model.get('id') + '" name="project" type="radio"><label>' + this.model.get('name') + '</label></div></td>'));
-        $(this.el).append($('<td><code>' + this.model.get('id') + '</code></td>'));
-        $(this.el).append($('<td>' + this.model.get('description') + '</td>'));
+        $(this.el).append('<td><div class="ui radio checkbox"><input id="' + this.model.get('id') + '" name="project" type="radio"><label>' + this.model.get('name') + '</label></div></td>');
+        $(this.el).append('<td><code>' + this.model.get('id') + '</code></td>');
+        $(this.el).append('<td>' + this.model.get('description') + '</td>');
 
         return this;
     }
 });
 
 /* Project table body. */
-proman.views.ProjectsTable = Backbone.View.extend({
-    collection: null,
+ProjectManager.Views.ProjectsTable = Backbone.View.extend({
     el: 'tbody',
     initialize: function (options) {
         this.collection = options.collection;
@@ -131,10 +123,10 @@ proman.views.ProjectsTable = Backbone.View.extend({
         let element = $(this.el);
         element.empty();
 
-        // Either display all projects or notice if no projects exist.
+        // Either display all projects or notice that no projects exist.
         if (this.collection.length > 0)
             this.collection.forEach(function(item) {
-                let itemView = new proman.views.ProjectItem({
+                let itemView = new ProjectManager.Views.ProjectItem({
                     model: item
                 });
 
@@ -151,14 +143,15 @@ proman.views.ProjectsTable = Backbone.View.extend({
 });
 
 /**
- * Project Action Buttons.
+ * Project actions (activate, edit, delete).
  */
-proman.models.ProjectAction = Backbone.Model.extend();
-proman.models.ProjectActions = Backbone.Collection.extend({
-    model: proman.models.ProjectAction
+ProjectManager.Models.ProjectAction = Backbone.Model.extend();
+
+ProjectManager.Models.ProjectActions = Backbone.Collection.extend({
+    model: ProjectManager.Models.ProjectAction
 });
 
-proman.views.ProjectActionItem = Backbone.View.extend({
+ProjectManager.Views.ProjectActionItem = Backbone.View.extend({
     tagName: 'a',
     className: 'item',
     role: 'button',
@@ -177,34 +170,46 @@ proman.views.ProjectActionItem = Backbone.View.extend({
             $(this.el).toggleClass('disabled');
 
         $(this.el).empty();
-        $(this.el).append($('<i class="' + this.model.get('icon') + ' icon"></i>'));
+        $(this.el).append('<i class="' + this.model.get('icon') + ' icon"></i>');
         $(this.el).append(this.model.get('text'));
 
         return this;
     }
 });
 
-proman.views.ProjectActionsList = Backbone.View.extend({
-    actions: null,
-    projects: null,
+ProjectManager.Views.ProjectActionsList = Backbone.View.extend({
     el: '#project-action',
     className: 'ui horizontal list',
+    events: {
+        'click #delete': function() {
+            if (checkedRadio) {
+                $('.mini.modal').modal({
+                    closable  : false,
+                    onApprove : function() {
+                        // Remove project from collection and database.
+                        projects.remove(projects.get(checkedRadio));
+                        // Reset selected checkbox.
+                        setCheckedRadio(null);
+                    }
+                }).modal('show');
+            }
+        }
+    },
     initialize: function (options) {
-        this.actions = options.actions;
-        this.projects = options.projects;
+        this.collection = options.collection;
 
         _.bindAll(this, 'render');
 
-        this.actions.bind('reset', this.render);
-        this.actions.bind('add', this.render);
-        this.actions.bind('remove', this.render);
+        this.collection.bind('reset', this.render);
+        this.collection.bind('add', this.render);
+        this.collection.bind('remove', this.render);
     },
     render: function () {
         let element = $(this.el);
         element.empty();
 
-        this.actions.forEach(function(item) {
-            let itemView = new proman.views.ProjectActionItem({
+        this.collection.forEach(function(item) {
+            let itemView = new ProjectManager.Views.ProjectActionItem({
                 model: item
             });
 
@@ -216,9 +221,9 @@ proman.views.ProjectActionsList = Backbone.View.extend({
 });
 
 /**
- * Instantiation of models and views.
+ * Instantiation of models and Views.
  */
-proman.models.projects = new proman.models.Projects([
+let projects = new ProjectManager.Models.Projects([
     {
         name: 'TestProject',
         id: 'df912f4b5a6b4e82846777c97d19ec56',
@@ -231,11 +236,11 @@ proman.models.projects = new proman.models.Projects([
     }
 ]);
 
-proman.views.projectTable = new proman.views.ProjectsTable({
-    collection: proman.models.projects
+let projectTable = new ProjectManager.Views.ProjectsTable({
+    collection: projects
 });
 
-proman.models.projectActions = new proman.models.ProjectActions([
+let projectActions = new ProjectManager.Models.ProjectActions([
     {
         disabled: true,
         icon: 'checkmark',
@@ -256,26 +261,10 @@ proman.models.projectActions = new proman.models.ProjectActions([
     }
 ]);
 
-proman.views.projectActionsList = new proman.views.ProjectActionsList({
-    actions: proman.models.projectActions,
-    projects: proman.models.projectActions
+let projectActionsList = new ProjectManager.Views.ProjectActionsList({
+    collection: projectActions
 });
 
 /* Render project table and action buttons. */
-proman.views.projectTable.render();
-proman.views.projectActionsList.render();
-
-/* Delete project. */
-$('#delete').click(function () {
-    if (checkedRadio) {
-        $('.mini.modal').modal({
-            closable  : false,
-            onApprove : function() {
-                // Remove project from collection and database.
-                proman.models.projects.remove(proman.models.projects.get(checkedRadio));
-                // Reset selected checkbox.
-                setCheckedRadio(null);
-            }
-        }).modal('show');
-    }
-});
+projectTable.render();
+projectActionsList.render();
