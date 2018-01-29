@@ -5427,7 +5427,7 @@ i.flag:not(.icon) {
 i.flag:not(.icon):before {
   display: inline-block;
   content: '';
-  background: url("./../../semantic/dist/themes/default/assets/images/flags.png") no-repeat -108px -1976px;
+  background: url("../images/flags.png") no-repeat -108px -1976px;
   width: 16px;
   height: 11px;
 }
@@ -15375,7 +15375,6 @@ ol.ui.horizontal.list li:before,
 *******************************/
 
 .ui.indeterminate.loader:after {
-  -webkit-animation-direction: reverse;
   animation-direction: reverse;
   -webkit-animation-duration: 1.2s;
   animation-duration: 1.2s;
