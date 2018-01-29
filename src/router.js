@@ -10,17 +10,17 @@
 
 import 'backbone';
 
-let router = {};
+let Router = {};
 
 export {
-    router as default,
-    router as router
+    Router as default,
+    Router as Router
 };
 
 /**
- * Router.
+ * The page router.
  */
-router.Router = Backbone.Router.extend({
+Router.Router = Backbone.Router.extend({
     initialize: function(view) {
         this.view = view;
     },

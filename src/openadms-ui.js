@@ -21,9 +21,9 @@ import PouchDB from 'pouchdb';
 import path from 'path';
 import 'semantic-ui';
 
-import models from './model.js';
-import views from './view.js';
-import router from './router.js';
+import Models from './model.js';
+import Views from './view.js';
+import Router from './router.js';
 
 /* Why is this shit even necessary? */
 export {
@@ -38,7 +38,10 @@ let version = 1.0;
 let appsPath = 'src/apps/';
 
 /* Collection to store App models. */
-let apps = new models.AppsList();
+let apps = new Models.AppsList();
+
+/* View instances. */
+let views = {};
 
 /* PouchDB database. */
 let database = new PouchDB('ui');
@@ -56,9 +59,9 @@ let logger = Logger.get('root');
     global.PouchDB = PouchDB;
     global.UI = {
         loadApps: loadApps,
-        models: {
-            App: models.App,
-            AppsList: models.AppsList
+        Models: {
+            App: Models.App,
+            AppsList: Models.AppsList
         },
         version: version
     };
@@ -92,13 +95,13 @@ function initDatabase() {
 }
 
 /**
- * Creates and renders page and App menu views.
+ * Creates and renders page and App menu Views.
  */
 function initView() {
-    views.page = new views.Page();
+    views.page = new Views.Page();
 
     /* Only pass those apps which should be displayed in the menu. */
-    views.appMenu = new views.AppMenu(new models.AppsList(apps.where({menu: true})));
+    views.appMenu = new Views.AppMenu(new Models.AppsList(apps.where({menu: true})));
     views.appMenu.render();
 }
 
@@ -106,7 +109,7 @@ function initView() {
  * Creates and starts the Backbone router.
  */
 function initRouter() {
-    router.router = new router.Router(views.page);
+    let router = new Router.Router(views.page);
     Backbone.history.start();
 }
 
@@ -118,7 +121,7 @@ function initRouter() {
  */
 function loadApps(rootPath, collection) {
     let appsFile = path.join(rootPath, 'apps.json');
-    logger.debug(`Loading apps file ${appsFile}`);
+    logger.debug('Loading apps file "' + appsFile + '"');
 
     return $.ajax({
         url: appsFile,

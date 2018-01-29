@@ -15,11 +15,11 @@ import Logger from 'js-logger';
 
 import apps from './openadms-ui.js';
 
-let views = {};
+let Views = {};
 
 export {
-    views as default,
-    views as views
+    Views as default,
+    Views as Views
 };
 
 /* Initialise the logger. */
@@ -29,7 +29,7 @@ let logger = Logger.get('view');
 /**
  * View of the page.
  */
-views.Page = Backbone.View.extend({
+Views.Page = Backbone.View.extend({
     el: '#main',
     initialize: function() {
         // this.renderCore('index', null);
@@ -52,6 +52,7 @@ views.Page = Backbone.View.extend({
 
         if (app != null) {
             logger.debug(`Rendering app "${name}"`);
+
             let run = app.get('script');
             let compiled = app.get('compiled');
             let vars = {
@@ -74,19 +75,20 @@ views.Page = Backbone.View.extend({
 /**
  * View of an App item in the App menu.
  */
-views.AppItem = Backbone.View.extend({
+Views.AppItem = Backbone.View.extend({
     tagName: 'a',
     initialize: function(options) {
         _.bindAll(this, 'render');
         this.model.bind('change', this.render);
     },
     render: function() {
-        $(this.el).empty();
+        let $element = $(this.el);
+        $element.empty();
 
-        $(this.el).addClass('item');
-        $(this.el).attr('href', '#app/' + this.model.get('name'));
-        $(this.el).append('<i class="' + this.model.get('icon') + ' icon"></i>');
-        $(this.el).append(this.model.get('title'));
+        $element.addClass('item');
+        $element.attr('href', '#app/' + this.model.get('name'));
+        $element.append('<i class="' + this.model.get('icon') + ' icon"></i>');
+        $element.append(this.model.get('title'));
 
         return this;
     }
@@ -95,7 +97,7 @@ views.AppItem = Backbone.View.extend({
 /**
  * View of the App menu.
  */
-views.AppMenu = Backbone.View.extend({
+Views.AppMenu = Backbone.View.extend({
     collection: null,
     el: '#appmenu',
     initialize: function(collection) {
@@ -109,16 +111,16 @@ views.AppMenu = Backbone.View.extend({
         this.collection.bind('remove', this.render);
     },
     render: function() {
-        let element = $(this.el);
-        element.empty();
+        let $element = $(this.el);
+        $element.empty();
 
         this.collection.forEach(function(item) {
             // Instantiate an AppItem view for each App.
-            let appItem = new views.AppItem({
+            let appItem = new Views.AppItem({
                 model: item
             });
 
-            element.append(appItem.render().el);
+            $element.append(appItem.render().el);
         });
 
         return this;

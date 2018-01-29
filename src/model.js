@@ -10,17 +10,17 @@
 
 import 'backbone';
 
-let models = {};
+let Models = {};
 
 export {
-    models as default,
-    models as models
+    Models as default,
+    Models as Models
 };
 
 /**
  * App base model.
  */
-models.App = Backbone.Model.extend({
+Models.App = Backbone.Model.extend({
     defaults: {
         name: 'undefined',  // The name of the app.
         title: 'Undefined', // The title of the app.
@@ -33,6 +33,6 @@ models.App = Backbone.Model.extend({
 /**
  * AppsList collection.
  */
-models.AppsList = Backbone.Collection.extend({
-    model: models.App
+Models.AppsList = Backbone.Collection.extend({
+    model: Models.App
 });
