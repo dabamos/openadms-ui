@@ -68,7 +68,7 @@ loaded. A variable ``args`` is given as an argument to the function and provides
 the routing path beyond the App name (e. g., ``#apps/myapp/<args>``).
 
 Enable the App by adding the App name to ``autoload`` in ``src/apps/apps.json``.
-Open ``http://localhost:8080/#apps/myapp`` to display the App.
+Open ``http://localhost:8080/openadms-ui/#apps/myapp`` to display the App.
 
 Apps can have subordinate Apps. You can use the ``UI.loadApps`` function to load
 them deferred.
