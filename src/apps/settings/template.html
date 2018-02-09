@@ -1,36 +1,33 @@
-<h3 class="ui header">
+<h3 class="ui dividing header">
     <i class="<%- icon %> icon"></i>
     <div class="content">
         <%- title %>
         <div class="sub header">OpenADMS UI</div>
     </div>
 </h3>
-<div class="ui padded segment">
-    <h4 class="ui horizontal divider header">
-        <i class="database icon"></i>
-        Local Databases
-    </h4>
-    <table class="ui selectable single line table">
+<div>
+    <h4 class="ui header">Local Databases</h4>
+    <table class="ui collapsing table">
         <thead>
         <tr>
-            <th>Name</th>
+            <th>Database</th>
             <th>Documents</th>
             <th>Store</th>
-            <th></th>
+            <th class="center aligned">Destroy</th>
         </tr>
         </thead>
         <tbody>
             <tr>
-                <td><code>ui</code></td>
-                <td>2</td>
+                <td><i class="database icon"></i><code>ui</code></td>
+                <td class="right aligned">2</td>
                 <td>IndexedDB</td>
-                <td><a href="#"><i class="trash icon"></i></a></td>
+                <td class="center aligned"><a href="#"><i class="trash icon"></i></a></td>
             </tr>
             <tr>
-                <td><code>projects</code></td>
-                <td>12</td>
+                <td><i class="database icon"></i><code>projects</code></td>
+                <td class="right aligned">12</td>
                 <td>IndexedDB</td>
-                <td><a href="#"><i class="trash icon"></i></a></td>
+                <td class="center aligned"><a href="#"><i class="trash icon"></i></a></td>
             </tr>
         </tbody>
     </table>

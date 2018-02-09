@@ -7,13 +7,16 @@ instances. It is written in ECMAScript 2015 and relies on jQuery, Backbone.js,
 Underscore.js, Semantic UI, and PouchDB.
 
 ## Run
-Launch OpenADMS UI by simply serving the directory contents with a web server
+Launch OpenADMS UI by simply serving the root directory with a web server
 (nginx, Hiawatha, httpd, …). For testing, you can start the Python HTTP server
 module inside the OpenADMS UI directory (or execute ``run.sh``):
 ```
 $ python3 -m http.server 8080
 ```
-Open your web browser and access ``http://localhost:8080/``.
+Open your web browser and access ``http://localhost:8080/openadms-ui/``.
+OpenADMS UI must be located in the directory ``/openadms-ui``. Otherwise, change
+``rootPath`` in ``src/openadms-ui.js`` to the actually path and re-build the
+sources.
 
 ## Build
 [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) are
@@ -66,6 +69,9 @@ the routing path beyond the App name (e. g., ``#apps/myapp/<args>``).
 
 Enable the App by adding the App name to ``autoload`` in ``src/apps/apps.json``.
 Open ``http://localhost:8080/#apps/myapp`` to display the App.
+
+Apps can have subordinate Apps. You can use the ``UI.loadApps`` function to load
+them deferred.
 
 ## JSDoc
 Run JSDoc to generate the source code documentation:

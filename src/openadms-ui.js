@@ -34,6 +34,9 @@ export {
 /* OpenADMS UI version. */
 let version = 1.0;
 
+/* OpenADMS UI root path. */
+let rootPath = '/openadms-ui/'
+
 /* Path to the Apps. */
 let appsPath = 'src/apps/';
 
@@ -44,7 +47,9 @@ let apps = new Models.AppsList();
 let views = {};
 
 /* PouchDB database. */
-let database = new PouchDB('ui');
+let database = new PouchDB('ui', {
+    auto_compaction: true
+});
 
 /* Initialise the logger. */
 Logger.useDefaults();
@@ -57,7 +62,10 @@ let logger = Logger.get('root');
     global.Backbone = Backbone;
     global.Logger = Logger;
     global.PouchDB = PouchDB;
+    global.path = path;
     global.UI = {
+        rootPath: rootPath,
+        appsPath: appsPath,
         loadApps: loadApps,
         Models: {
             App: Models.App,
@@ -82,7 +90,7 @@ function hideLoader() {
 function initDatabase() {
     let doc = {
         '_id': 'ui',
-        'active': null
+        'activeProject': null
     };
 /*
     database.put(doc).then(function (response) {
@@ -110,7 +118,10 @@ function initView() {
  */
 function initRouter() {
     let router = new Router.Router(views.page);
-    Backbone.history.start();
+
+    Backbone.history.start({
+        root: rootPath
+    });
 }
 
 /**
@@ -161,7 +172,7 @@ function loadApps(rootPath, collection) {
 
 $(document).ready(function() {
     /* Use Promises to pre-load everything. */
-    $.when(loadApps(appsPath, apps))
+    $.when(loadApps(path.join(rootPath, appsPath), apps))
         .then(initView)
         .then(initRouter)
         .then(initDatabase)

@@ -11,7 +11,7 @@ Logger.useDefaults();
 let logger = Logger.get('addpro');
 
 /* Open PouchDB database. */
-let db = new PouchDB('projects');
+let db = new PouchDB('projects', { auto_compaction: true });
 
 /**
  * Returns pseudo-random UUID4 as 32-character hexadecimal string.
