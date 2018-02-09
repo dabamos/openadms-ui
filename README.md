@@ -15,7 +15,7 @@ $ python3 -m http.server 8080
 ```
 Open your web browser and access ``http://localhost:8080/openadms-ui/``.
 OpenADMS UI must be located in the directory ``/openadms-ui``. Otherwise, change
-``rootPath`` in ``src/openadms-ui.js`` to the actually path and re-build the
+``rootPath`` in ``src/openadms-ui.js`` to the actual path and re-build the
 sources.
 
 ## Build
