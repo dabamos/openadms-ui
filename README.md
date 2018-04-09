@@ -56,22 +56,21 @@ The JSON file ``meta.json`` stores all information regarding the App:
 ```
 The name must equal the name of the App directory. The title will be displayed
 in the App menu and optionally in the Underscore.js template. The icon can be
-changed to a valid
-[Semantic UI icon](https://semantic-ui.com/elements/icon.html) name. If ``menu``
-is set to ``true``, the App will be listed in the App menu.
+changed to a valid [Semantic UI icon](https://semantic-ui.com/elements/icon.html)
+name. If ``menu`` is set to ``true``, the App will be listed in the HTML menu.
 
 The file ``template.html`` contains the HTML elements and optional Underscore.js
 placeholders for meta values.
 
-The script ``app.js`` will be run as a JavaScript function each time the App is
-loaded. A variable ``args`` is given as an argument to the function and provides
-the routing path beyond the App name (e. g., ``#apps/myapp/<args>``).
+The App script ``app.js`` will be run as a JavaScript function each time the App
+is loaded. The variable ``args`` is given as an argument to the App function and
+stores the routing path beyond the App name (e. g., ``#apps/myapp/<args>``).
 
 Enable the App by adding the App name to ``autoload`` in ``src/apps/apps.json``.
 Open ``http://localhost:8080/openadms-ui/#apps/myapp`` to display the App.
 
-Apps can have subordinate Apps. You can use the ``UI.loadApps`` function to load
-them deferred.
+Apps can have subordinate Apps. You may want to use the ``UI.loadApps()``
+function to load them deferred.
 
 ## JSDoc
 Run JSDoc to generate the source code documentation:
