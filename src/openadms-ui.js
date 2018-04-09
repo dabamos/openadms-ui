@@ -9,7 +9,8 @@
  */
 
 /* I really hate JavaScript. Front-end programming is for monkeys. See:
-   https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f */
+   https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f
+   Next time, I'll to this in Fortran. */
 
 'use strict';
 
