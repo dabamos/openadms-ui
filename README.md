@@ -11,10 +11,11 @@ Launch OpenADMS UI by simply serving the root directory with a web server
 (nginx, Hiawatha, httpd, …). For testing, you can start the Python HTTP server
 module inside the OpenADMS UI directory (or execute ``run.sh``):
 ```
+$ cd ../
 $ python3 -m http.server 8080
 ```
 Open your web browser and access ``http://localhost:8080/openadms-ui/``.
-OpenADMS UI must be located in the directory ``/openadms-ui``. Otherwise, change
+OpenADMS UI must be located in directory ``/openadms-ui``. Otherwise, change
 ``rootPath`` in ``src/openadms-ui.js`` to the actual path and re-build the
 sources.
 
@@ -28,8 +29,8 @@ Build OpenADMS UI with:
 ```
 $ npm run-script build
 ```
-The output file ``bundle.js`` will be saved to ``assets/js/``.
-If you change any Semantic UI styles, re-package the CSS files with Gulp:
+The output file ``bundle.js`` will be saved to ``assets/js/``. If you change
+any Semantic UI styles, re-package the CSS files with Gulp:
 ```
 $ cd semantic/
 $ ../node_modules/gulp/bin/gulp.js build-css
@@ -43,7 +44,7 @@ OpenADMS UI can be extended by writing additional Apps. Add an App directory to
 
 * ``meta.json`` (App information),
 * ``template.html`` (Underscore.js template),
-* ``app.js`` (optional script, may be empty).
+* ``app.js`` (App script, may be empty).
 
 The JSON file ``meta.json`` stores all information regarding the App:
 ```
@@ -55,29 +56,32 @@ The JSON file ``meta.json`` stores all information regarding the App:
 }
 ```
 The name must equal the name of the App directory. The title will be displayed
-in the App menu and optionally in the Underscore.js template. The icon can be
-changed to a valid [Semantic UI icon](https://semantic-ui.com/elements/icon.html)
-name. If ``menu`` is set to ``true``, the App will be listed in the HTML menu.
+in the Underscore.js template. The icon can be changed to a valid
+[Semantic UI icon](https://semantic-ui.com/elements/icon.html) name. If
+``menu`` is set to ``true``, a link to the App will be added to the top menu.
 
-The file ``template.html`` contains the HTML elements and optional Underscore.js
-placeholders for meta values.
+The template file ``template.html`` contains the HTML elements and optional
+Underscore.js placeholders for meta values.
 
 The App script ``app.js`` will be run as a JavaScript function each time the App
 is loaded. The variable ``args`` is given as an argument to the App function and
-stores the routing path beyond the App name (e. g., ``#apps/myapp/<args>``).
+stores the complete routing path beyond the App name (e. g.,
+``#apps/myapp/<args>``).
 
+### Loading the App
 Enable the App by adding the App name to ``autoload`` in ``src/apps/apps.json``.
 Open ``http://localhost:8080/openadms-ui/#apps/myapp`` to display the App.
 
+### Subordinate Apps
 Apps can have subordinate Apps. You may want to use the ``UI.loadApps()``
 function to load them deferred.
 
 ## JSDoc
 Run JSDoc to generate the source code documentation:
 ```
-$ ./node_modules/jsdoc/jsdoc.js -r ./src -d ./doc
+$ ./node_modules/jsdoc/jsdoc.js -r ./src -d ./docs
 ```
-You will find the HTML pages in directory ``doc/``.
+You will find the HTML pages in directory ``docs/``.
 
 ## Licence
 OpenADMS UI is licenced under BSD-2-Clause.
