@@ -15,7 +15,7 @@ $ cd ../
 $ python3 -m http.server 8080
 ```
 Open your web browser and access ``http://localhost:8080/openadms-ui/``.
-OpenADMS UI must be located in directory ``/openadms-ui``. Otherwise, change
+OpenADMS UI must be served from path ``openadms-ui/``. Otherwise, change
 ``rootPath`` in ``src/openadms-ui.js`` to the actual path and re-build the
 sources.
 
@@ -47,7 +47,7 @@ OpenADMS UI can be extended by writing additional Apps. Add an App directory to
 * ``app.js`` (App script, may be empty).
 
 The JSON file ``meta.json`` stores all information regarding the App:
-```
+```json
 {
   "name": "myapp",
   "title": "My App",
