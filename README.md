@@ -14,7 +14,8 @@ module inside the OpenADMS UI directory (or execute ``run.sh``):
 $ cd ../
 $ python3 -m http.server 8080
 ```
-Open your web browser and access ``http://localhost:8080/openadms-ui/``.
+Open your web browser and access
+[http://localhost:8080/openadms-ui/](http://localhost:8080/openadms-ui/).
 OpenADMS UI must be served from path ``openadms-ui/``. Otherwise, change
 ``rootPath`` in ``src/openadms-ui.js`` to the actual path and re-build the
 sources.
@@ -63,14 +64,15 @@ in the Underscore.js template. The icon can be changed to a valid
 The template file ``template.html`` contains the HTML elements and optional
 Underscore.js placeholders for meta values.
 
-The App script ``app.js`` will be run as a JavaScript function each time the App
-is loaded. The variable ``args`` is given as an argument to the App function and
-stores the complete routing path beyond the App name (e. g.,
+The App script ``app.js`` will be run as a JavaScript function each time the
+App is loaded. The variable ``args`` is given as an argument to the App
+function and stores the complete routing path beyond the App name (e. g.,
 ``#apps/myapp/<args>``).
 
 ### Loading the App
-Enable the App by adding the App name to ``autoload`` in ``src/apps/apps.json``.
-Open ``http://localhost:8080/openadms-ui/#apps/myapp`` to display the App.
+Enable the App by adding the App name to ``autoload`` in
+``src/apps/apps.json``. Open ``http://localhost:8080/openadms-ui/#apps/myapp``
+to display the App.
 
 ### Subordinate Apps
 Apps can have subordinate Apps. You may want to use the ``UI.loadApps()``
@@ -84,4 +86,4 @@ $ ./node_modules/jsdoc/jsdoc.js -r ./src -d ./docs
 You will find the HTML pages in directory ``docs/``.
 
 ## Licence
-OpenADMS UI is licenced under BSD-2-Clause.
+OpenADMS UI is distributed under the BSD-2-Clause licence.
