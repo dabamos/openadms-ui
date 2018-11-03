@@ -7,7 +7,6 @@
  */
 
 /* Initialise the logger. */
-Logger.useDefaults();
 let logger = Logger.get('addpro');
 
 /* Open PouchDB database. */
@@ -106,9 +105,9 @@ $form.submit(function (event) {
                 window.location = '#app/projectManager';
             }, 1000);
         }
-    }).catch(function (err) {
+    }).catch(function (error) {
         // Show error message.
-        $('.ui.error.message').html(err);
+        $('.ui.error.message').html(error);
     });
 
     event.preventDefault();

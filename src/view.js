@@ -10,7 +10,7 @@
 
 import $ from 'jquery';
 import _ from 'underscore';
-import 'backbone';
+import Backbone from 'backbone';
 import Logger from 'js-logger';
 
 import apps from './openadms-ui.js';
@@ -31,10 +31,10 @@ let logger = Logger.get('view');
  */
 Views.Page = Backbone.View.extend({
     el: '#main',
-    initialize: function() {
+    initialize: function () {
         // this.renderCore('index', null);
     },
-    renderError: function(name) {
+    renderError: function (name) {
         let app = apps.get('error');
         let compiled = app.get('compiled');
         let meta = {
@@ -42,12 +42,10 @@ Views.Page = Backbone.View.extend({
             'title': app.get('title'),
             'icon': app.get('icon')
         };
-
         this.$el.html(compiled(meta));
-
         return this;
     },
-    renderApp: function(name, args) {
+    renderApp: function (name, args) {
         let app = apps.get(name);
 
         if (app != null) {
@@ -62,6 +60,7 @@ Views.Page = Backbone.View.extend({
             };
 
             this.$el.html(compiled(vars));
+            /* Run App script. */
             run(args);
         } else {
             logger.debug(`App "${name}" not found`);
@@ -73,36 +72,33 @@ Views.Page = Backbone.View.extend({
 });
 
 /**
- * View of an App item in the App menu.
+ * View of an App item in the Apps menu.
  */
 Views.AppItem = Backbone.View.extend({
     tagName: 'a',
-    initialize: function(options) {
+    initialize: function (options) {
         _.bindAll(this, 'render');
         this.model.bind('change', this.render);
     },
-    render: function() {
-        let $element = $(this.el);
-        $element.empty();
-
-        $element.addClass('item');
-        $element.attr('href', '#app/' + this.model.get('name'));
-        $element.append('<i class="' + this.model.get('icon') + ' icon"></i>');
-        $element.append(this.model.get('title'));
-
+    render: function () {
+        let $el = $(this.el);
+        $el.empty();
+        $el.addClass('item');
+        $el.attr('href', '#app/' + this.model.get('name'));
+        $el.append('<i class="' + this.model.get('icon') + ' icon"></i>');
+        $el.append(this.model.get('title'));
         return this;
     }
 });
 
 /**
- * View of the App menu.
+ * View of the Apps menu.
  */
-Views.AppMenu = Backbone.View.extend({
+Views.AppsMenu = Backbone.View.extend({
     collection: null,
-    el: '#appmenu',
-    initialize: function(collection) {
+    el: '#apps-menu',
+    initialize: function (collection) {
         this.collection = collection;
-
         _.bindAll(this, 'render');
 
         // Bind collection changes to re-rendering.
@@ -110,17 +106,16 @@ Views.AppMenu = Backbone.View.extend({
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
     },
-    render: function() {
-        let $element = $(this.el);
-        $element.empty();
+    render: function () {
+        let $el = $(this.el);
+        $el.empty();
 
         this.collection.forEach(function(item) {
-            // Instantiate an AppItem view for each App.
+            /* Instantiate an AppItem view for each App. */
             let appItem = new Views.AppItem({
                 model: item
             });
-
-            $element.append(appItem.render().el);
+            $el.append(appItem.render().el);
         });
 
         return this;

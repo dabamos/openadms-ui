@@ -8,7 +8,7 @@
 
 'use strict';
 
-import 'backbone';
+import Backbone from 'backbone';
 
 let Router = {};
 

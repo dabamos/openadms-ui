@@ -54,9 +54,9 @@ ConfigurationEditor.Views.AppItem = Backbone.View.extend({
 });
 
 /**
- * AppItemsList view.
+ * AppsMenu view.
  */
-ConfigurationEditor.Views.AppItemsList = Backbone.View.extend({
+ConfigurationEditor.Views.AppsMenu = Backbone.View.extend({
     el: '#app-list',
     initialize: function(collection) {
         this.collection = collection;
@@ -97,8 +97,8 @@ ConfigurationEditor.Views.Module = Backbone.View.extend({
 });
 
 /* Instantiate the Views. */
-let appItemsList = new ConfigurationEditor.Views.AppItemsList(apps);
-appItemsList.render();
+let appItemsList = new ConfigurationEditor.Views.AppsMenu(apps);
+appsMenu.render();
 
 let module = new ConfigurationEditor.Views.Module();
 module.render('test');

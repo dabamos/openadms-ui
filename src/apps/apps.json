@@ -1,7 +1,8 @@
 {
   "autoload": [
     "about",
-    "confed",
+    "charts",
+    "configuration",
     "dashboard",
     "error",
     "index",
