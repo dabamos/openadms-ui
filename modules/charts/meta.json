@@ -1,0 +1,6 @@
+{
+    "name": "charts",
+    "title": "Charts",
+    "description": "Plot timeseries data",
+    "menu": true
+}

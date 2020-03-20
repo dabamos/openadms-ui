@@ -1,0 +1,13 @@
+{
+  "modules": [
+    "charts",
+    "error",
+    "heartbeats",
+    "index",
+    "licence",
+    "profile",
+    "settings",
+    "status",
+    "table"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+    "name": "status",
+    "title": "Status",
+    "description": "OpenADMS Server status",
+    "menu": false
+}

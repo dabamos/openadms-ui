@@ -1,0 +1,6 @@
+{
+    "name": "heartbeats",
+    "title": "Heartbeats",
+    "description": "Status of OpenADMS Node instances",
+    "menu": true
+}

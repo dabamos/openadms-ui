@@ -1,0 +1,6 @@
+{
+    "name": "table",
+    "title": "Table",
+    "description": "List timeseries data",
+    "menu": true
+}

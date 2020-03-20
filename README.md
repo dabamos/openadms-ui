@@ -3,86 +3,92 @@
 **OpenADMS UI** is a single-page application for the remote control of
 [OpenADMS Node](https://github.com/dabamos/openadms-node/) and
 [OpenADMS Server](https://github.com/dabamos/openadms-server/)
-instances. It is written in ECMAScript 2015 and relies on jQuery, Backbone.js,
-Underscore.js, Semantic UI, and PouchDB.
+instances. It is written in standard JavaScript, using some features of
+ECMAScript 2015. Therefore, a modern web browser is required to run OpenADMS UI
+properly. All dependencies ([jQuery](https://jquery.com/),
+[Backbone.js](https://backbonejs.org/),
+[Underscore.js](https://underscorejs.org/), …) are shipped with the source code.
 
 ## Run
-Launch OpenADMS UI by simply serving the root directory with a web server
-(nginx, Hiawatha, httpd, …). For testing, you can start the Python HTTP server
-module inside the OpenADMS UI directory (or execute ``run.sh``):
+Launch OpenADMS UI by simply serving the root directory with a web server of
+your choice (nginx, Hiawatha, httpd, …). For testing, you can start the Python 3
+HTTP server module (or execute ``run.sh``):
+
 ```
 $ cd ../
 $ python3 -m http.server 8080
 ```
+
 Open your web browser and access
 [http://localhost:8080/openadms-ui/](http://localhost:8080/openadms-ui/).
 OpenADMS UI must be served from path ``openadms-ui/``. Otherwise, change
-``rootPath`` in ``src/openadms-ui.js`` to the actual path and re-build the
-sources.
+``ROOT_PATH`` in ``core/openadms-ui.js`` to the actual path and reload the page.
 
 ## Build
-[Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) are
-required to build OpenADMS UI. Clone the repository with Git and run:
-```
-$ npm install
-```
-Build OpenADMS UI with:
-```
-$ npm run-script build
-```
-The output file ``bundle.js`` will be saved to ``assets/js/``. If you change
-any Semantic UI styles, re-package the CSS files with Gulp:
-```
-$ cd semantic/
-$ ../node_modules/gulp/bin/gulp.js build-css
-```
-The compiled CSS files ``semantic.css`` and ``semantic.min.css`` will be
-stored in ``assets/css/``.
+The JavaScript source code can be shipped without transpiling (no
+[node.js](https://nodejs.org/) or [npm](https://www.npmjs.com/) required). To
+update the dependencies, copy the minified scripts to `vendor/`, and the
+minified style sheets to `assets/css/vendor/`.
 
-## Writing Apps
-OpenADMS UI can be extended by writing additional Apps. Add an App directory to
-``src/apps/`` and place the following files inside it:
+Do not minify the source code in `core/`, as all scripts are loaded dynamically.
+
+## Architecture
+The OpenADMS UI Single-Page Application consists of four parts:
+
+1. The **HTML template** `index.html` defines the layout of the web application.
+2. The **style sheet** is based on the [mini.css](https://minicss.org/) framework. Some adjustments have been made to it in `assets/css/style.css`.
+3. The application **source code** `core/openadms-ui.js` that preloads all dependencies, loads modules, and creates the view. Model classes are loaded from `core/model.js`, view classes from `core/view.js`, and the router from `core/router.js`.
+4. Pages are encapsulated in **modules** that are loaded dynamically from directory `modules/`. Each module consists of the HTML template in `template.html`, the module logic in `module.js`, and mandatory meta information in `meta.json`. Modules must be added to `modules/modules.json` to be loaded by OpenADMS UI.
+
+## Adding Modules
+OpenADMS UI can be extended by writing additional modules. Add a module
+directory to ``modules/`` and place the following files inside it:
 
 * ``meta.json`` (App information),
 * ``template.html`` (Underscore.js template),
-* ``app.js`` (App script, may be empty).
+* ``module.js`` (App script, may be empty).
 
-The JSON file ``meta.json`` stores all information regarding the App:
+The JSON file ``meta.json`` stores information regarding the module:
+
 ```json
 {
-  "name": "myapp",
-  "title": "My App",
-  "icon": "puzzle",
+  "name": "mymodule",
+  "title": "My Module",
+  "description": "A short description",
   "menu": true
 }
 ```
-The name must equal the name of the App directory. The title will be displayed
-in the Underscore.js template. The icon can be changed to a valid
-[Semantic UI icon](https://semantic-ui.com/elements/icon.html) name. If
-``menu`` is set to ``true``, a link to the App will be added to the top menu.
 
-The template file ``template.html`` contains the HTML elements and optional
-Underscore.js placeholders for meta values.
+The name must equal the name of the module directory. The title and the
+description will be displayed in the Underscore.js template. If ``menu`` is set
+to ``true``, a link to the module will be added to the navigation menu
+automatically.
 
-The App script ``app.js`` will be run as a JavaScript function each time the
-App is loaded. The variable ``args`` is given as an argument to the App
-function and stores the complete routing path beyond the App name (e. g.,
-``#apps/myapp/<args>``).
+The HTML template ``template.html`` contains elements and optional Underscore.js
+placeholders of meta values.
 
-### Loading the App
-Enable the App by adding the App name to ``autoload`` in
-``src/apps/apps.json``. Open ``http://localhost:8080/openadms-ui/#apps/myapp``
-to display the App.
+The module script ``module.js`` will be run as a JavaScript function each time
+the module is loaded. The variable ``args`` is given as an argument to the
+module function and stores the complete routing path beyond the module name
+(e. g., ``#module/mymodule/<args>``).
 
-### Subordinate Apps
-Apps can have subordinate Apps. You may want to use the ``UI.loadApps()``
-function to load them deferred.
+### Loading Modules
+Enable the module by adding the module name to ``modules`` in
+``modules/modules.json``. Open
+``http://localhost:8080/openadms-ui/#module/mymodule``
+to display the module.
+
+### Subordinate Modules
+Modules can have subordinate modules. You may want to use the
+``ui.loadModules()`` function to load them deferred.
 
 ## JSDoc
 Run JSDoc to generate the source code documentation:
+
 ```
-$ ./node_modules/jsdoc/jsdoc.js -r ./src -d ./docs
+$ ./jsdoc.js -r ./core -d ./docs
 ```
+
 You will find the HTML pages in directory ``docs/``.
 
 ## Licence

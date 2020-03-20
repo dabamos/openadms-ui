@@ -1,0 +1,29 @@
+<div class="card fluid">
+    <div class="section">
+        <div class="row cols-sm-12 cols-md-4">
+            <div>
+                <label for="heartbeats-pid">Project ID</label><br>
+                <select class="stretched" disabled="" id="heartbeats-pid"></select>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="no-ellipsis" id="heartbeats-beats">
+    <thead>
+        <tr>
+            <th>Sensor Node ID</th>
+            <th>IP Address</th>
+            <th>Frequency</th>
+            <th>Last Heartbeat</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <td class="center" colspan="5"><div class="spinner"></div></td>
+    </tbody>
+</table>
+<button id="heartbeats-refresh">Refresh</button>
+<p>
+    <mark class="inline-block tertiary" id="heartbeats-status">Fetching project IDs …</mark>
+    <mark class="inline-block secondary hidden" id="heartbeats-error">API request failed</mark>
+</p>

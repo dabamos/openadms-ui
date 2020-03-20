@@ -1,0 +1,36 @@
+<div class="card fluid" id="charts-container">
+    <div class="section">
+        <div class="row cols-sm-12 cols-md-3">
+            <div>
+                <label for="charts-pid">Project ID</label><br>
+                <select class="stretched" disabled="" id="charts-pid"></select>
+            </div>
+            <div>
+                <label for="charts-nid">Sensor Node ID</label><br>
+                <select class="stretched" disabled="" id="charts-nid"></select>
+            </div>
+            <div>
+                <label for="charts-nid">Sensor Name</label><br>
+                <select class="stretched" disabled="" id="charts-sensor"></select>
+            </div>
+            <div>
+                <label for="charts-nid">Target</label><br>
+                <select class="stretched" disabled="" id="charts-target"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label for="charts-dt">Time Period</label><br>
+                <input class="stretched" disabled="" id="charts-dt" type="text">
+            </div>
+        </div>
+        <button class="primary" id="charts-button">Plot Timeseries</button>
+    </div>
+    <div class="section">
+        <div id="charts-plotly"></div>
+    </div>
+</div>
+<p>
+    <mark class="inline-block tertiary hidden" id="charts-status"></mark>
+    <mark class="inline-block secondary hidden" id="charts-error"></mark>
+</p>

@@ -1,0 +1,6 @@
+{
+    "name": "settings",
+    "title": "Settings",
+    "description": "Configure OpenADMS UI",
+    "menu": false
+}

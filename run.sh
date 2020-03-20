@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd ../
-python3.6 -m http.server 8080
+python3 -m http.server 8080

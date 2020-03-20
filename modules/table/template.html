@@ -1,0 +1,69 @@
+<div class="card fluid">
+    <div class="section">
+        <div class="row cols-sm-12 cols-md-4">
+            <div>
+                <label for="charts-pid">Project ID</label><br>
+                <select class="stretched" disabled="" id="charts-pid"></select>
+            </div>
+            <div>
+                <label for="charts-nid">Sensor Node ID</label><br>
+                <select class="stretched" disabled="" id="charts-nid"></select>
+            </div>
+            <div>
+                <label for="charts-nid">Sensor Name</label><br>
+                <select class="stretched" disabled="" id="charts-sensor"></select>
+            </div>
+        </div>
+        <div class="row cols-sm-12 cols-md-4">
+            <div>
+                <label for="charts-nid">Target</label><br>
+                <select class="stretched" disabled="" id="charts-target"></select>
+            </div>
+            <div>
+                <label for="charts-dt">Time Period</label><br>
+                <input class="stretched" disabled="" id="charts-dt" type="text">
+            </div>
+            <div>
+                <label for="charts-dt">Value Name</label><br>
+                <input class="stretched" disabled="" id="charts-value-name" type="text">
+            </div>
+        </div>
+        <mark class="hidden tertiary" id="charts-status"></mark>
+        <mark class="hidden secondary" id="charts-error">API request failed</mark>
+    </div>
+</div>
+<table class="no-ellipsis striped">
+    <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>Target</th>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Unit</th>
+        </tr>
+    </thead>
+        <tr>
+            <td data-label="Timestamp">2017/04/05 21:48:00</td>
+            <td data-label="Target">tempPress</td>
+            <td data-label="Name">pressure</td>
+            <td data-label="Value">1011.3</td>
+            <td data-label="Unit">mbar</td>
+        </tr>
+        <tr>
+            <td data-label="Timestamp">2017/04/05 22:48:01</td>
+            <td data-label="Target">tempPress</td>
+            <td data-label="Name">pressure</td>
+            <td data-label="Value">1010.9</td>
+            <td data-label="Unit">mbar</td>
+        </tr>
+        <tr>
+            <td data-label="Timestamp">2017/04/05 23:48:00</td>
+            <td data-label="Target">tempPress</td>
+            <td data-label="Name">pressure</td>
+            <td data-label="Value">1009.1</td>
+            <td data-label="Unit">mbar</td>
+        </tr>
+    <tbody>
+
+    </tbody>
+</table>
