@@ -44,9 +44,9 @@ The OpenADMS UI Single-Page Application consists of four parts:
 OpenADMS UI can be extended by writing additional modules. Add a module
 directory to ``modules/`` and place the following files inside it:
 
-* ``meta.json`` (App information),
+* ``meta.json`` (module information),
 * ``template.html`` (Underscore.js template),
-* ``module.js`` (App script, may be empty).
+* ``module.js`` (module script, may be empty).
 
 The JSON file ``meta.json`` stores information regarding the module:
 
