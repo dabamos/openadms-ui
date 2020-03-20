@@ -39,13 +39,13 @@ export {
 };
 
 /* OpenADMS UI version. */
-let version = 1.0;
+const version = 1.0;
 
 /* OpenADMS UI root path. */
-let rootPath = '/openadms-ui/';
+const rootPath = '/openadms-ui/';
 
 /* Path to the Apps. */
-let appsPath = 'src/apps/';
+const appsPath = 'src/apps/';
 
 /* Collection to store App models. */
 let apps = new Models.AppsList();
@@ -98,7 +98,7 @@ function hideLoader() {
 function initView() {
     views.page = new Views.Page();
     /* Only pass those Apps which should be displayed in the menu. */
-    views.appsMenu = new Views.AppsMenu(new Models.AppsList(apps.where({menu: true})));
+    views.appsMenu = new Views.AppsMenu(new Models.AppsList(apps.where({ menu: true })));
     views.appsMenu.render();
 }
 
@@ -120,7 +120,7 @@ function initRouter() {
  */
 function loadApps(rootPath, collection) {
     let autoLoadFile = path.join(rootPath, 'apps.json');
-    logger.debug('Loading Apps list file "' + autoLoadFile + '"');
+    logger.debug(`Loading Apps list file "${autoLoadFile}"`);
 
     return $.ajax({
         url: autoLoadFile,

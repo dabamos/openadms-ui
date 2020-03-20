@@ -1,6 +1,0 @@
-{
-  "autoload": [
-    "add-project",
-    "import-sensor-node"
-  ]
-}
