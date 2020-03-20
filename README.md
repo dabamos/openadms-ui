@@ -30,7 +30,7 @@ The JavaScript source code can be shipped without transpiling (no
 update the dependencies, copy the minified scripts to `vendor/`, and the
 minified style sheets to `assets/css/vendor/`.
 
-Do not minify the source code in `core/`, as all scripts are loaded dynamically.
+Do not bundle the source code, as all scripts are loaded dynamically.
 
 ## Architecture
 The OpenADMS UI Single-Page Application consists of four parts:
