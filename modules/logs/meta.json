@@ -1,0 +1,6 @@
+{
+    "name": "logs",
+    "title": "Logs",
+    "description": "Show log messages from sensor nodes",
+    "menu": true
+}

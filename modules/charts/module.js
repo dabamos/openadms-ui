@@ -108,8 +108,6 @@ function populateDropdown(id, array) {
 
 /* Sends an AJAX request to `resource` and populates the dropdown list of given `id`. */
 function fetch(resource, callback, id) {
-    $(id).attr('disabled', '');
-
     if (!hasProfile()) {
         showError('Profile incomplete or missing');
     } else {
@@ -143,6 +141,7 @@ function fetch(resource, callback, id) {
             },
             success: function(data, status, xhr) {
                 log.debug('Received response');
+                $(id).attr('disabled', '');
                 callback(id, data);
             }
         });

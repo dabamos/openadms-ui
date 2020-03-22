@@ -1,10 +1,12 @@
 {
   "modules": [
+    "about",
     "charts",
     "error",
     "heartbeats",
-    "index",
+    "home",
     "licence",
+    "logs",
     "profile",
     "settings",
     "status",

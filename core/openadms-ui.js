@@ -99,7 +99,7 @@ function initializeViews(modules, views) {
  *
  *     {
  *       "modules:" [
- *         "index",
+ *         "home",
  *         "licence",
  *         "profile"
  *       ]

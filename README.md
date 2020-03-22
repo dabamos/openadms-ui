@@ -38,7 +38,7 @@ The OpenADMS UI Single-Page Application consists of four parts:
 1. The **HTML template** `index.html` defines the layout of the web application.
 2. The **style sheet** is based on the [mini.css](https://minicss.org/) framework. Some adjustments have been made to it in `assets/css/style.css`.
 3. The application **source code** `core/openadms-ui.js` that preloads all dependencies, loads modules, and creates the view. Model classes are loaded from `core/model.js`, view classes from `core/view.js`, and the router from `core/router.js`.
-4. Pages are encapsulated in **modules** that are loaded dynamically from directory `modules/`. Each module consists of the HTML template in `template.html`, the module logic in `module.js`, and mandatory meta information in `meta.json`. Modules must be added to `modules/modules.json` to be loaded by OpenADMS UI.
+4. Pages are encapsulated in **modules** that are loaded dynamically from directory `modules/`. Each module consists of an HTML template in `template.html`, its logic in `module.js`, and mandatory meta information in `meta.json`. Modules must be added to `modules/modules.json` to be loaded by OpenADMS UI.
 
 ## Adding Modules
 OpenADMS UI can be extended by writing additional modules. Add a module

@@ -1,15 +1,23 @@
-h3                  { border-color: var(--card-border-color); border-style: solid; border-width: 0 0 .0625rem 0; }
 footer              { text-align: center; }
 table               { max-height: 1200px !important; }
-#main               { background-color: #f2f2f2; background-image: url('../images/bg.png'); }
+#main               { background-color: #f2f2f2; }
 #module             { min-height: 40em; }
 #bars               { height: 1.7em; vertical-align: middle;  }
 #loader             { text-align: center; }
 .center             { text-align: center; }
+.dark               { background-color: #e0e0e0; }
 .invalid            { border-color: var(--input-invalid-color); }
 .inverse            { filter: invert(100%); }
 .responsive-label   { align-items: center; }
 .right              { text-align: right; }
 .squeezed           { width: 80%; }
 .squeezed-more      { width: 60%; }
+.squeezed-hard      { width: 40%; }
 .stretched          { width: 100%; }
+
+mark.critical,
+mark.error,
+mark.warning        { text-transform: uppercase; }
+mark.critical       { background-color: #d32f2f; }
+mark.error          { background-color: #d32f2f; }
+mark.warning        { background-color: #ffca28; }

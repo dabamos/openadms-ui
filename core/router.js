@@ -25,7 +25,7 @@ Router.Router = Backbone.Router.extend({
     showModule: function(name, args) {
         /* Render single module. */
         if (name === null)
-            name = 'index';
+            name = 'home';
 
         log.debug(`Routing to module "${name}" ...`);
         this.view.renderModule(name, args);

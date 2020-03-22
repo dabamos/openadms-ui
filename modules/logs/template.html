@@ -1,0 +1,31 @@
+<div class="card fluid" id="logs-container">
+    <div class="section">
+        <div class="row cols-sm-12 cols-md-3">
+            <div>
+                <label for="logs-pid">Project ID</label><br>
+                <select class="stretched" disabled="" id="logs-pid"></select>
+            </div>
+            <div>
+                <label for="logs-nid">Sensor Node ID</label><br>
+                <select class="stretched" disabled="" id="logs-nid"></select>
+            </div>
+        </div>
+    </div>
+</div>
+<table id="logs-messages">
+    <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>Level</th>
+            <th>Module</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        <td class="center" colspan="4"><div class="spinner"></div></td>
+    </tbody>
+</table>
+<p>
+    <mark class="inline-block tertiary hidden" id="logs-status"></mark>
+    <mark class="inline-block secondary hidden" id="logs-error"></mark>
+</p>

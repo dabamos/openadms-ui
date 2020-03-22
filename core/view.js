@@ -18,7 +18,7 @@ Views.Page = Backbone.View.extend({
     el: '#module',
     initialize: function (modules) {
         this.modules = modules;
-        this.renderModule('index', null);
+        this.renderModule('home', null);
     },
     renderError: function (name) {
         let module = this.modules.get('error');

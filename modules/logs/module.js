@@ -1,27 +1,30 @@
 /**
- * Module: Heartbeat
+ * Module: Charts
  *
+ * Plotting timeseries fetched from an OpenADMS Server instance in a plotly
+ * chart using jQuery. A little ugly, but gets the job done.
  */
 
 let settings = {
-    pid: ''    // Selected project ID.
+    pid: '',    // Selected project ID.
+    nid: ''     // Selected sensor node ID.
 }
-
-$('#heartbeats-refresh').click(function() {
-    fetch(`projects/${settings.pid}/nodes/`, populateTable, '#heartbeats-beats');
-});
 
 /* Listen to dropdown changes. */
 $('select').on('change', function() {
-    $(this).removeAttr('disabled');
+    $('#logs-button').removeAttr('disabled');
 
     let id = $(this).attr('id');
     let value = $(this).val();
 
     switch (id) {
-        case 'heartbeats-pid':
+        case 'logs-pid':
             settings.pid = value;
-            fetch(`projects/${settings.pid}/nodes/`, populateTable, '#heartbeats-beats');
+            showStatus('Fetching sensor node IDs ...');
+            fetch(`projects/${settings.pid}/nodes/`, populateDropdown, '#logs-nid');
+        case 'logs-nid':
+            settings.nid = value;
+            fetch(`projects/${settings.pid}/nodes/${settings.nid}/logs/`, populateTable, '#logs-messages');
     }
 });
 
@@ -39,32 +42,27 @@ function hasProfile() {
     return true;
 }
 
-function hideError() {
-    $('#heartbeats-error').addClass('hidden');
-}
-
-function hideStatus() {
-    $('#heartbeats-status').addClass('hidden');
-}
-
 /* Shows an error message. */
 function showError(str) {
     log.warn(str);
-    hideStatus();
-    $('#heartbeats-error').removeClass('hidden');
-    $('#heartbeats-error').html(str);
+    $('#logs-status').addClass('hidden');
+    $('#logs-error').removeClass('hidden');
+    $('#logs-error').html(str);
 }
 
 /* Shows a status message. */
 function showStatus(str) {
     log.info(str);
-    hideError();
-    $('#heartbeats-status').removeClass('hidden');
-    $('#heartbeats-status').html(str);
+    $('#logs-status').removeClass('hidden');
+    $('#logs-error').addClass('hidden');
+    $('#logs-status').html(str);
 }
 
 /* Populates a dropdown list of given `id` with elements from `array`. */
 function populateDropdown(id, array) {
+    $('#logs-status').addClass('hidden');
+    $(id).removeAttr('disabled');
+
     if ($.isArray(array) && array.length > 0) {
         let $dropdown = $(id);
         $dropdown.empty();
@@ -77,42 +75,28 @@ function populateDropdown(id, array) {
 
 /* Populates a table of given `id` with elements from `array`. */
 function populateTable(id, array) {
-    $(id).children('tbody').empty();
-    $.each(array, function() {
-        log.debug(`Fetching heartbeat status of pid "${settings.pid}" and nid "${this}" ...`);
-        fetch(`projects/${settings.pid}/nodes/${this}/heartbeat/`, addRow, id);
-    });
+    if ($.isArray(array) && array.length > 0) {
+        $(id).children('tbody').empty();
+        $.each(array, function() {
+            log.debug(`Fetching heartbeat status of pid "${settings.pid}" and nid "${this}" ...`);
+            addRow(id, this);
+        });
+    }
 }
 
-/* Adds a single row heartbeat information to table of given `id`. */
+/* Adds a single log message to table of given `id`. */
 function addRow(id, obj) {
     log.debug(`Adding row to element "${id}" ...`);
 
-    let color = 'tertiary';
-    let title = 'in time';
-
-    let now = moment(new Date());
-    let end = moment(obj.dt)
-    let duration = moment.duration(now.diff(end));
-    let seconds = duration.asSeconds();
-    let dt = end.format('YYYY-MM-DD HH:mm:ss');
-    let rel = end.fromNow(true);
-
-    if (seconds > obj.freq) {
-        color = 'secondary';
-        title = `${rel} overdue`;
-    }
-
-    let html = `<tr><td data-label="Sensor Node ID" title="${obj.nid}">${obj.nid}</td>` +
-               `<td data-label="IP Address">${obj.ip}</td>` +
-               `<td data-label="Frequency">${obj.freq} seconds</td>` +
-               `<td data-label="Last Heartbeat">${dt}</td>` +
-               `<td data-label="Status"><mark class="${color}">${title}</mark></td></tr>`;
+    let html = `<tr><td data-label="Timestamp">${obj.dt}</td>` +
+               `<td data-label="Level"><mark class="${obj.level}">${obj.level}</mark></td>` +
+               `<td data-label="Module"><code>${obj.module}</code></td>` +
+               `<td data-label="Message">${obj.message}</td></tr>`;
     $(id).children('tbody').append(html);
 }
 
-/* Sends an AJAX request to `resource` and call the callback. */
-function fetch(resource, callback, element) {
+/* Sends an AJAX request to `resource` and populates the dropdown list of given `id`. */
+function fetch(resource, callback, id) {
     if (!hasProfile()) {
         showError('Profile incomplete or missing');
     } else {
@@ -127,7 +111,7 @@ function fetch(resource, callback, element) {
             crossDomain: true,
             dataType: 'json',
             timeout: 10000,
-            beforeSend: function (xhr) {
+            beforeSend: function(xhr) {
                 xhr.setRequestHeader('Authorization', 'Basic ' + btoa(user + ':' + password));
             },
             statusCode: {
@@ -146,8 +130,8 @@ function fetch(resource, callback, element) {
             },
             success: function(data, status, xhr) {
                 log.debug('Received response');
-                hideStatus();
-                callback(element, data);
+                $(id).attr('disabled', '');
+                callback(id, data);
             }
         });
     }
@@ -155,6 +139,7 @@ function fetch(resource, callback, element) {
 
 /* Run on load. */
 $(function() {
-    log.debug('Running module "heartbeats" ...');
-    fetch('projects/', populateDropdown, '#heartbeats-pid');
+    log.debug('Running module "logs" ...');
+    showStatus('Fetching project IDs ...');
+    fetch('projects/', populateDropdown, '#logs-pid');
 });
