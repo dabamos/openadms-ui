@@ -9,7 +9,7 @@
 .daterangepicker {
   position: absolute;
   color: inherit;
-  background-color: #fff;
+  background-color: #f8f8f8;
   border-radius: 4px;
   border: 1px solid #ddd;
   width: 278px;
@@ -172,7 +172,7 @@
 .daterangepicker .calendar-table {
   border: 1px solid #fff;
   border-radius: 4px;
-  background-color: #fff;
+  background-color: #f8f8f8;
 }
 
 .daterangepicker .calendar-table table {

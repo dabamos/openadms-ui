@@ -8,36 +8,25 @@ let settings = {
 }
 
 $('#heartbeats-refresh').click(function() {
-    fetch(`projects/${settings.pid}/nodes/`, populateTable, '#heartbeats-beats');
+    if (settings.pid) {
+        fetch(`projects/${settings.pid}/nodes/`, populateTable, '#heartbeats-beats');
+    } else {
+        showError('Project ID missing');
+    }
 });
 
 /* Listen to dropdown changes. */
-$('select').on('change', function() {
+$('#heartbeats-pid').on('change', function() {
     $(this).removeAttr('disabled');
-
     let id = $(this).attr('id');
     let value = $(this).val();
 
-    switch (id) {
-        case 'heartbeats-pid':
-            settings.pid = value;
-            fetch(`projects/${settings.pid}/nodes/`, populateTable, '#heartbeats-beats');
+    if (value != settings.pid) {
+        log.debug('Fetching sensor node IDs …');
+        settings.pid = value;
+        fetch(`projects/${settings.pid}/nodes/`, populateTable, '#heartbeats-beats');
     }
 });
-
-/* Checks for profile data in LocalStorage. */
-function hasProfile() {
-    if (!store.has('ui.profile.url') || !store.has('ui.profile.user') || !store.has('ui.profile.password')) {
-        log.warn('Profile missing');
-        return false;
-    }
-    if (!store.get('ui.profile.url') || !store.get('ui.profile.user') || !store.get('ui.profile.password')) {
-        log.warn('Profile empty');
-        return false;
-    }
-    log.debug('Profile found');
-    return true;
-}
 
 function hideError() {
     $('#heartbeats-error').addClass('hidden');
@@ -78,6 +67,7 @@ function populateDropdown(id, array) {
 /* Populates a table of given `id` with elements from `array`. */
 function populateTable(id, array) {
     $(id).children('tbody').empty();
+
     $.each(array, function() {
         log.debug(`Fetching heartbeat status of pid "${settings.pid}" and nid "${this}" ...`);
         fetch(`projects/${settings.pid}/nodes/${this}/heartbeat/`, addRow, id);
@@ -113,7 +103,7 @@ function addRow(id, obj) {
 
 /* Sends an AJAX request to `resource` and call the callback. */
 function fetch(resource, callback, element) {
-    if (!hasProfile()) {
+    if (!ui.hasProfile()) {
         showError('Profile incomplete or missing');
     } else {
         let url = store.get('ui.profile.url');

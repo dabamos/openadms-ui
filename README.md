@@ -9,6 +9,9 @@ properly. All dependencies ([jQuery](https://jquery.com/),
 [Backbone.js](https://backbonejs.org/),
 [Underscore.js](https://underscorejs.org/), …) are shipped with the source code.
 
+## Demo
+Try [OpenADMS UI](https://www.dabamos.de/openadms-ui/).
+
 ## Run
 Launch OpenADMS UI by simply serving the root directory with a web server of
 your choice (nginx, Hiawatha, httpd, …). For testing, you can start the Python 3

@@ -1,14 +1,15 @@
-<p>A server profile has be created in order to retrieve timeseries data and log
-messages from a remote OpenADMS Server instances.</p>
-
-<p>The profile will be saved to the LocalStorage of your web browser.</p>
+<p>A server profile has to be created in order to retrieve timeseries, log
+messages, and heartbeats from a local or remote OpenADMS Server instance.</p>
 
 <form class="squeezed">
     <fieldset>
         <legend>OpenADMS Server</legend>
+
         <p>Enter the connection details of the REST server you want to
         access.</p>
+
         <p>Make sure to use HTTPS for transport layer encryption.</p>
+
         <div class="row responsive-label">
             <div class="col-sm-12 col-md-3"><label for="profile-url">Server URL</label></div>
             <div class="col-sm-12 col-md"><input class="squeezed" id="profile-url" placeholder="https://www.example.com/" type="text"></div>
@@ -23,10 +24,14 @@ messages from a remote OpenADMS Server instances.</p>
             <div class="col-sm-12 col-md-3"><label for="profile-password">User Password</label></div>
             <div class="col-sm-12 col-md"><input class="squeezed" id="profile-password" placeholder="Password" type="password"></div>
         </div>
+
+        <p>The profile will be saved to the LocalStorage of your web browser.</p>
+
         <p class="hidden" id="profile-invalid-url"><mark class="inline-block secondary">Profile could not be saved: Entered URL is invalid</mark></p>
         <p class="hidden" id="profile-success"><mark class="inline-block tertiary">Profile has been saved</mark></p>
         <p class="hidden" id="profile-deleted"><mark class="inline-block tertiary">Profile has been deleted</mark></p>
     </fieldset>
+
     <div class="right">
         <input class="primary" id="profile-save" type="button" value="Save">
         <input id="profile-clear" type="reset" value="Clear">

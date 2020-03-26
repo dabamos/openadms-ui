@@ -83,7 +83,7 @@ $('#profile-delete').click(function() {
 });
 
 /* Load from LocalStorage at start-up. */
-(function() {
+$(function() {
     log.debug('Running module "profile" ...');
     load();
-})();
+});

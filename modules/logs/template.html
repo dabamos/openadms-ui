@@ -1,6 +1,6 @@
 <div class="card fluid" id="logs-container">
     <div class="section">
-        <div class="row cols-sm-12 cols-md-3">
+        <div class="row cols-sm-12 cols-md-4">
             <div>
                 <label for="logs-pid">Project ID</label><br>
                 <select class="stretched" disabled="" id="logs-pid"></select>
@@ -8,6 +8,10 @@
             <div>
                 <label for="logs-nid">Sensor Node ID</label><br>
                 <select class="stretched" disabled="" id="logs-nid"></select>
+            </div>
+            <div>
+                <label for="logs-dt">Time Period</label><br>
+                <input class="stretched" disabled="" id="logs-dt" type="text">
             </div>
         </div>
     </div>
@@ -22,7 +26,6 @@
         </tr>
     </thead>
     <tbody>
-        <td class="center" colspan="4"><div class="spinner"></div></td>
     </tbody>
 </table>
 <p>

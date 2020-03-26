@@ -40,6 +40,19 @@ const CORE = [
 ];
 
 /**
+ * Checks for profile data in LocalStorage.
+ */
+function hasProfile() {
+    if (!store.has('ui.profile.url') || !store.has('ui.profile.user') || !store.has('ui.profile.password')) {
+        return false;
+    }
+    if (!store.get('ui.profile.url') || !store.get('ui.profile.user') || !store.get('ui.profile.password')) {
+        return false;
+    }
+    return true;
+}
+
+/**
  * Hides the donut spinner using jQuery.
  */
 function hideLoader() {
@@ -60,6 +73,7 @@ function initializeGlobal(modules, views) {
             ROOT_PATH: ROOT_PATH,
             VERSION: VERSION,
             loadModules: loadModules,
+            hasProfile: hasProfile,
             modules: modules,
             views: views,
             Models: {

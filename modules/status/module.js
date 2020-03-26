@@ -8,20 +8,6 @@
  * will do the job instead for now.
  */
 
-/* Checks for profile data in LocalStorage. */
-function hasProfile() {
-    if (!store.has('ui.profile.url') || !store.has('ui.profile.user') || !store.has('ui.profile.password')) {
-        log.error('Profile missing');
-        return false;
-    }
-    if (!store.get('ui.profile.url') || !store.get('ui.profile.user') || !store.get('ui.profile.password')) {
-        log.error('Profile empty');
-        return false;
-    }
-    log.debug('Profile found');
-    return true;
-}
-
 /* Reset the status table. */
 function resetForm() {
     $('#status-status').html('<mark>unknown</mark>');
@@ -44,7 +30,7 @@ function resetForm() {
 function request() {
     resetForm();
 
-    if (hasProfile()) {
+    if (ui.hasProfile()) {
         log.debug('Profile found');
 
         /* Read profile from LocalStorage. */

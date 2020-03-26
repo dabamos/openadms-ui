@@ -1,5 +1,5 @@
 footer              { text-align: center; }
-table               { max-height: 1200px !important; }
+table               { max-height: 4000px !important; }
 #main               { background-color: #f2f2f2; }
 #module             { min-height: 40em; }
 #bars               { height: 1.7em; vertical-align: middle;  }
@@ -17,7 +17,7 @@ table               { max-height: 1200px !important; }
 
 mark.critical,
 mark.error,
-mark.warning        { text-transform: uppercase; }
-mark.critical       { background-color: #d32f2f; }
+mark.warning        { font-family: monospace; text-transform: uppercase; }
+mark.critical       { background-color: #000000; }
 mark.error          { background-color: #d32f2f; }
-mark.warning        { background-color: #ffca28; }
+mark.warning        { background-color: #ffc857; }

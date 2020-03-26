@@ -1,14 +1,36 @@
 /**
- * Module: Charts
+ * Module: Logs
  *
- * Plotting timeseries fetched from an OpenADMS Server instance in a plotly
- * chart using jQuery. A little ugly, but gets the job done.
+ * Lists log messages of given project id, sensor node id, and time period in a
+ * table.
  */
 
 let settings = {
-    pid: '',    // Selected project ID.
-    nid: ''     // Selected sensor node ID.
-}
+    pid: '',                                        // Selected project ID.
+    nid: '',                                        // Selected sensor node ID.
+    start: moment().subtract(1, 'days').format(),   // Start of time range.
+    end: moment().add(1, 'days').format(),          // End of time range.
+};
+
+/* Show date range picker. */
+$('#logs-dt').daterangepicker({
+    autoApply: true,
+    autoUpdateInput: true,
+    timePicker: true,
+    timePicker24Hour: true,
+    timePickerSeconds: true,
+    startDate: settings.start,
+    endDate: settings.end,
+    minYear: 2020,
+    maxYear: 2100,
+    locale: {
+        format: 'YYYY/MM/DD HH:mm:ss'
+    },
+}, function(start, end, label) {
+    settings.start = start.format();
+    settings.end = end.format();
+    fetchLogs(settings.pid, settings.nid, settings.start, settings.end);
+});
 
 /* Listen to dropdown changes. */
 $('select').on('change', function() {
@@ -19,28 +41,20 @@ $('select').on('change', function() {
 
     switch (id) {
         case 'logs-pid':
+            /* Fetch sensor node ids. */
             settings.pid = value;
-            showStatus('Fetching sensor node IDs ...');
-            fetch(`projects/${settings.pid}/nodes/`, populateDropdown, '#logs-nid');
+
+            showStatus('Fetching sensor node IDs …');
+            fetch(`projects/${settings.pid}/nodes/`, null, populateDropdown, '#logs-nid');
         case 'logs-nid':
+            /* Fetch sensor log messages. */
+            $('#logs-dt').removeAttr('disabled');
             settings.nid = value;
-            fetch(`projects/${settings.pid}/nodes/${settings.nid}/logs/`, populateTable, '#logs-messages');
+
+            showStatus('Fetching log messages …');
+            fetchLogs(settings.pid, settings.nid, settings.start, settings.end);
     }
 });
-
-/* Checks for profile data in LocalStorage. */
-function hasProfile() {
-    if (!store.has('ui.profile.url') || !store.has('ui.profile.user') || !store.has('ui.profile.password')) {
-        log.warn('Profile missing');
-        return false;
-    }
-    if (!store.get('ui.profile.url') || !store.get('ui.profile.user') || !store.get('ui.profile.password')) {
-        log.warn('Profile empty');
-        return false;
-    }
-    log.debug('Profile found');
-    return true;
-}
 
 /* Shows an error message. */
 function showError(str) {
@@ -75,10 +89,12 @@ function populateDropdown(id, array) {
 
 /* Populates a table of given `id` with elements from `array`. */
 function populateTable(id, array) {
+    $('#logs-status').addClass('hidden');
+
     if ($.isArray(array) && array.length > 0) {
         $(id).children('tbody').empty();
         $.each(array, function() {
-            log.debug(`Fetching heartbeat status of pid "${settings.pid}" and nid "${this}" ...`);
+            log.debug(`Fetching log messages of pid "${settings.pid}" and nid "${this}" ...`);
             addRow(id, this);
         });
     }
@@ -87,17 +103,17 @@ function populateTable(id, array) {
 /* Adds a single log message to table of given `id`. */
 function addRow(id, obj) {
     log.debug(`Adding row to element "${id}" ...`);
-
     let html = `<tr><td data-label="Timestamp">${obj.dt}</td>` +
                `<td data-label="Level"><mark class="${obj.level}">${obj.level}</mark></td>` +
                `<td data-label="Module"><code>${obj.module}</code></td>` +
                `<td data-label="Message">${obj.message}</td></tr>`;
-    $(id).children('tbody').append(html);
+    $(id).children('tbody').prepend(html);
 }
 
-/* Sends an AJAX request to `resource` and populates the dropdown list of given `id`. */
-function fetch(resource, callback, id) {
-    if (!hasProfile()) {
+/* Sends an AJAX request to `resource` and calls `callback` with parameters
+ * `id` and `data`. */
+function fetch(resource, data, callback, id) {
+    if (!ui.hasProfile()) {
         showError('Profile incomplete or missing');
     } else {
         let url = store.get('ui.profile.url');
@@ -111,6 +127,8 @@ function fetch(resource, callback, id) {
             crossDomain: true,
             dataType: 'json',
             timeout: 10000,
+            type: 'get',
+            data: data,
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('Authorization', 'Basic ' + btoa(user + ':' + password));
             },
@@ -137,9 +155,24 @@ function fetch(resource, callback, id) {
     }
 }
 
+/* Fetches selected log messages from server. */
+function fetchLogs(pid, nid, start, end) {
+    let $tbody = $('#logs-messages').children('tbody');
+    $tbody.empty();
+    $tbody.html('<td class="center" colspan="4"><div class="spinner"></div></td>');
+
+    let url = `projects/${pid}/nodes/${nid}/logs/`;
+    /* GET parameters `start` and `end`. */
+    let data = {
+        start: start,
+        end: end
+    };
+    fetch(url, data, populateTable, '#logs-messages');
+}
+
 /* Run on load. */
 $(function() {
     log.debug('Running module "logs" ...');
     showStatus('Fetching project IDs ...');
-    fetch('projects/', populateDropdown, '#logs-pid');
+    fetch('projects/', null, populateDropdown, '#logs-pid');
 });

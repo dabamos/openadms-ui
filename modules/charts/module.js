@@ -10,7 +10,7 @@ let settings = {
     nid: '',    // Selected sensor node ID.
     sensor: '', // Selected sensor name.
     target: ''  // Selected target name.
-}
+};
 
 $('#charts-button').click(function() {
     $(this).attr('disabled', '');
@@ -61,20 +61,6 @@ $('#charts-dt').daterangepicker({
     log.debug('A new date selection was made: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 });
 
-/* Checks for profile data in LocalStorage. */
-function hasProfile() {
-    if (!store.has('ui.profile.url') || !store.has('ui.profile.user') || !store.has('ui.profile.password')) {
-        log.warn('Profile missing');
-        return false;
-    }
-    if (!store.get('ui.profile.url') || !store.get('ui.profile.user') || !store.get('ui.profile.password')) {
-        log.warn('Profile empty');
-        return false;
-    }
-    log.debug('Profile found');
-    return true;
-}
-
 /* Shows an error message. */
 function showError(str) {
     log.warn(str);
@@ -108,7 +94,7 @@ function populateDropdown(id, array) {
 
 /* Sends an AJAX request to `resource` and populates the dropdown list of given `id`. */
 function fetch(resource, callback, id) {
-    if (!hasProfile()) {
+    if (!ui.hasProfile()) {
         showError('Profile incomplete or missing');
     } else {
         let url = store.get('ui.profile.url');
@@ -149,7 +135,7 @@ function fetch(resource, callback, id) {
 }
 
 function fetchCSV(resource) {
-    if (!hasProfile()) {
+    if (!ui.hasProfile()) {
         showError('Profile incomplete or missing');
     } else {
         let url = store.get('ui.profile.url');
