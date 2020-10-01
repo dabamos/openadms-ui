@@ -79,7 +79,7 @@ Views.ModuleItem = Backbone.View.extend({
         /* Set HTML. */
         $el.empty();
         $el.addClass('sublink-1');
-        $el.attr('href', '#module/' + this.model.get('name'));
+        $el.attr('href', '#modules/' + this.model.get('name'));
         $el.append(this.model.get('title'));
         return this;
     }
@@ -104,8 +104,8 @@ Views.ModulesMenu = Backbone.View.extend({
         let $el = $(this.el);
         /* Set HTML. */
         $el.empty();
-        $el.append('<a href="#module/profile">Profile</a>');
-        $el.append('<a href="#module/status">Status</a>');
+        $el.append('<a href="#modules/profile">Profile</a>');
+        $el.append('<a href="#modules/status">Status</a>');
         $el.append('<span>Modules</span>');
 
         this.collection.forEach(function(item) {
@@ -116,7 +116,7 @@ Views.ModulesMenu = Backbone.View.extend({
             $el.append(moduleItem.render().el);
         });
 
-        $el.append('<a href="#module/settings">Settings</a>');
+        $el.append('<a href="#modules/settings">Settings</a>');
         return this;
     }
 });

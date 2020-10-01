@@ -1,35 +1,33 @@
 ![OpenADMS UI](https://www.dabamos.de/github/openadms.png)
 
-**OpenADMS UI** is a single-page application for the remote control of
-[OpenADMS Node](https://github.com/dabamos/openadms-node/) and
-[OpenADMS Server](https://github.com/dabamos/openadms-server/)
-instances. It is written in standard JavaScript, using some features of
-ECMAScript 2015. Therefore, a modern web browser is required to run OpenADMS UI
-properly. All dependencies ([jQuery](https://jquery.com/),
-[Backbone.js](https://backbonejs.org/),
+**OpenADMS UI** is a single-page application for the remote control of [OpenADMS
+Server](https://github.com/dabamos/openadms-server/) instances. It is written in
+standard JavaScript, using some features of ECMAScript 2015. Therefore, a modern
+web browser is required to run OpenADMS UI properly. All dependencies
+([jQuery](https://jquery.com/), [Backbone.js](https://backbonejs.org/),
 [Underscore.js](https://underscorejs.org/), …) are shipped with the source code.
 
 ## Demo
 Try [OpenADMS UI](https://www.dabamos.de/openadms-ui/).
 
 ## Run
-Launch OpenADMS UI by simply serving the root directory with a web server of
-your choice (nginx, Hiawatha, httpd, …). For testing, you can start the Python 3
-HTTP server module (or execute ``run.sh``):
+Launch OpenADMS UI by serving the root directory with a web server of your
+choice (nginx, Hiawatha, httpd, …). For testing, you can start the Python 3 HTTP
+server module:
 
 ```
 $ cd ../
 $ python3 -m http.server 8080
 ```
 
-Open your web browser and access
+Or, simply execute ``run.sh``. Open your web browser and access
 [http://localhost:8080/openadms-ui/](http://localhost:8080/openadms-ui/).
 OpenADMS UI must be served from path ``openadms-ui/``. Otherwise, change
 ``ROOT_PATH`` in ``core/openadms-ui.js`` to the actual path and reload the page.
 
 ## Build
 The JavaScript source code can be shipped without transpiling (no
-[node.js](https://nodejs.org/) or [npm](https://www.npmjs.com/) required). To
+[Node.js](https://nodejs.org/) or [npm](https://www.npmjs.com/) required). To
 update the dependencies, copy the minified scripts to `vendor/`, and the
 minified style sheets to `assets/css/vendor/`.
 
@@ -38,10 +36,19 @@ Do not bundle the source code, as all scripts are loaded dynamically.
 ## Architecture
 The OpenADMS UI Single-Page Application consists of four parts:
 
-1. The **HTML template** `index.html` defines the layout of the web application.
-2. The **style sheet** is based on the [mini.css](https://minicss.org/) framework. Some adjustments have been made to it in `assets/css/style.css`.
-3. The application **source code** `core/openadms-ui.js` that preloads all dependencies, loads modules, and creates the view. Model classes are loaded from `core/model.js`, view classes from `core/view.js`, and the router from `core/router.js`.
-4. Pages are encapsulated in **modules** that are loaded dynamically from directory `modules/`. Each module consists of an HTML template in `template.html`, its logic in `module.js`, and mandatory meta information in `meta.json`. Modules must be added to `modules/modules.json` to be loaded by OpenADMS UI.
+1.  The **HTML template** `index.html` defines the layout of the web
+    application.
+2.  The **style sheet** is based on the [mini.css](https://minicss.org/)
+    framework. Some adjustments have been made to it in `assets/css/style.css`.
+3.  The application **source code** `core/openadms-ui.js` that preloads all
+    dependencies, loads modules, and creates the view. Model classes are loaded
+    from `core/model.js`, view classes from `core/view.js`, and the router from
+    `core/router.js`.
+4.  Pages are encapsulated in **modules** that are loaded dynamically from
+    directory `modules/`. Each module consists of an HTML template in
+    `template.html`, its (optional) logic in `module.js`, and mandatory meta
+    information in `meta.json`. Modules must be added to `modules/modules.json`
+    to be loaded by OpenADMS UI.
 
 ## Adding Modules
 OpenADMS UI can be extended by writing additional modules. Add a module
@@ -73,15 +80,15 @@ placeholders of meta values.
 The module script ``module.js`` will be run as a JavaScript function each time
 the module is loaded. The variable ``args`` is given as an argument to the
 module function and stores the complete routing path beyond the module name
-(e. g., ``#module/mymodule/<args>``).
+(e. g., ``#modules/mymodule/<args>``).
 
 ### Loading Modules
 Enable the module by adding the module name to ``modules`` in
 ``modules/modules.json``. Open
-``http://localhost:8080/openadms-ui/#module/mymodule``
+``http://localhost:8080/openadms-ui/#modules/mymodule``
 to display the module.
 
-### Subordinate Modules
+### Sub Modules
 Modules can have subordinate modules. You may want to use the
 ``ui.loadModules()`` function to load them deferred.
 

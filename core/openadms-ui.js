@@ -1,6 +1,6 @@
 /**
- * @file      OpenADMS UI is a single-page application serving as a remote
- *            control interface for OpenADMS Node instances.
+ * @file      OpenADMS UI is a single-page application serving as a control
+ *            panel for OpenADMS Server instances.
  * @author    Philipp Engel
  * @license   BSD-2-Clause
  * @copyright Hochschule Neubrandenburg - University of Applied Sciences, 2020

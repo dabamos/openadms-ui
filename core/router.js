@@ -19,8 +19,8 @@ Router.Router = Backbone.Router.extend({
     },
     routes: {
         '': 'showModule',
-        'module/': 'showModule',
-        'module/:name(/*args)': 'showModule',
+        'modules/': 'showModule',
+        'modules/:name(/*args)': 'showModule',
     },
     showModule: function(name, args) {
         /* Render single module. */
